@@ -109,17 +109,16 @@ echo "##########################################################"
 echo "## $NUM.Setting up Firewall"
 echo "##########################################################"
 echo ""
+sudo apt-get install ufw --assume-yes
 # SSH port
-iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+sudo ufw allow 22
 # MySQL
-iptables -A INPUT -p tcp --dport 3306 -j ACCEPT
+sudo ufw allow 3306
 if [ $SETUP_DEV_WORLD == "true" ]; then
-    # Worldserver
-    iptables -A INPUT -p tcp --dport $SETUP_DEV_REALM_PORT -j ACCEPT
+    sudo ufw allow $SETUP_DEV_REALM_PORT
 fi
 if [ $SETUP_AUTH == "true" ]; then
-	# Authserver port
-	iptables -A INPUT -p tcp --dport 3724 -j ACCEPT
+    sudo ufw allow 3724
 fi
 fi
 
