@@ -1,0 +1,1 @@
+screen -dmS realmname $HOME/server/scripts/Restarter/Auth/restarter_auth.sh

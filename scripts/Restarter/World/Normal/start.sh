@@ -1,0 +1,1 @@
+screen -dmS realmname $HOME/server/scripts/Restarter/World/Normal/restarter_world.sh

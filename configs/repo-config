@@ -1,0 +1,7 @@
+########## SCRIPTS
+SCRIPTS_REPO_URL="https://github.com/CableguyWoW/WOTLKTrinityInstaller"
+
+########## GAME REPOS URLS
+CORE_REPO_URL="https://github.com/TrinityCore/TrinityCore.git"
+DB_REPO_URL="https://github.com/TrinityCore/TrinityCore/releases/download/TDB335.24081/TDB_full_world_335.24081_2024_08_17.7z"
+335_CLIENT_URL="https://btground.tk/chmi/ChromieCraft_3.3.5a.zip"
