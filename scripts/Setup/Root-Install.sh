@@ -8,9 +8,11 @@
 . /root/WOTLKTrinityInstaller/configs/realm-dev-config
 
 ### LETS START
+echo ""
 echo "##########################################################"
 echo "## ROOT INSTALL SCRIPT STARTING...."
 echo "##########################################################"
+echo ""
 NUM=0
 export DEBIAN_FRONTEND=noninteractive
 
@@ -29,15 +31,19 @@ echo ""
 ((NUM++)); echo "- [$NUM] : Install Fail2Ban"
 ((NUM++)); echo "- [$NUM] : Show Command List"
 echo ""
+echo ""
+
 
 else
 
 
 ((NUM++))
 if [ "$1" = "all" ] || [ "$1" = "$NUM" ]; then
+echo ""
 echo "##########################################################"
 echo "## $NUM.Installing Trinity requirements"
 echo "##########################################################"
+echo ""
 apt-get update
 wget https://dev.mysql.com/get/mysql-apt-config_0.8.29-1_all.deb -O /tmp/mysql-apt-config_all.deb
 DEBIAN_FRONTEND=noninteractive dpkg -i /tmp/mysql-apt-config_all.deb
@@ -49,9 +55,11 @@ fi
 
 ((NUM++))
 if [ "$1" = "all" ] || [ "$1" = "$NUM" ]; then
+echo ""
 echo "##########################################################"
 echo "## $NUM.Install MySQL Server"
 echo "##########################################################"
+echo ""
 echo "mysql-server mysql-server/root_password password $ROOT_PASS" | sudo debconf-set-selections
 echo "mysql-server mysql-server/root_password_again password $ROOT_PASS" | sudo debconf-set-selections
 apt-get -y install mysql-server
@@ -79,9 +87,11 @@ fi
 
 ((NUM++))
 if [ "$1" = "all" ] || [ "$1" = "$NUM" ]; then
+echo ""
 echo "##########################################################"
 echo "## $NUM.Setting up MySQL Users"
 echo "##########################################################"
+echo ""
 mysql -u $ROOT_USER -p$ROOT_PASS -D mysql -e "ALTER USER '$ROOT_USER'@'localhost' IDENTIFIED BY '$ROOT_PASS';"
 ## Remote DB User Setup
 if [ $REMOTE_DB_SETUP == "true" ]; then
@@ -94,9 +104,11 @@ fi
 
 ((NUM++))
 if [ "$1" = "all" ] || [ "$1" = "$NUM" ]; then
+echo ""
 echo "##########################################################"
 echo "## $NUM.Setting up Firewall"
 echo "##########################################################"
+echo ""
 # SSH port
 iptables -A INPUT -p tcp --dport 22 -j ACCEPT
 # MySQL
@@ -114,9 +126,11 @@ fi
 
 ((NUM++))
 if [ "$1" = "all" ] || [ "$1" = "$NUM" ]; then
+echo ""
 echo "##########################################################"
 echo "## $NUM.Setup Linux Users"
 echo "##########################################################"
+echo ""
 if [ $SETUP_DEV_WORLD == "true" ]; then
 	sudo useradd -m -p $SETUP_DEV_REALM_PASS -s /bin/bash $SETUP_DEV_REALM_USER
 fi
@@ -128,10 +142,11 @@ fi
 
 ((NUM++))
 if [ "$1" = "all" ] || [ "$1" = "$NUM" ]; then
+echo ""
 echo "##########################################################"
 echo "## $NUM.Install Fail2Ban"
 echo "##########################################################"
-echo "Installing Fail2Ban..."
+echo ""
 sudo apt install -y fail2ban
 
 # Enable Fail2Ban to start on boot
@@ -166,7 +181,10 @@ sudo systemctl status fail2ban
 echo "Fail2Ban installation completed!"
 fi
 
+
+((NUM++))
 if [ "$1" = "all" ] || [ "$1" = "7" ]; then
+echo ""
 echo "##########################################################"
 echo "## $NUM.Root install script finished"
 echo "##########################################################"
@@ -176,5 +194,6 @@ echo "run 'cd /root/WOTLKTrinityInstaller/scripts/Setup/ && ./Auth-Install.sh' o
 echo ""
 echo "####  FOR DEV REALM INSTALL ####"
 echo "run 'cd /root/WOTLKTrinityInstaller/scripts/Setup/ && ./Realm-Dev-Install.sh' on the $SETUP_DEV_REALM_USER user"
+echo ""
 fi
 fi

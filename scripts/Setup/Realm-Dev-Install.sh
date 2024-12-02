@@ -16,9 +16,11 @@ echo "You must run this script under the $SETUP_DEV_REALM_USER user!"
 else
 
 ## LETS START
+echo ""
 echo "##########################################################"
 echo "## DEV REALM INSTALL SCRIPT STARTING...."
 echo "##########################################################"
+echo ""
 NUM=0
 export DEBIAN_FRONTEND=noninteractive
 
@@ -57,18 +59,22 @@ else
 NUM=0
 ((NUM++))
 if [ "$1" = "all" ] || [ "$1" = "$NUM" ]; then
+echo ""
 echo "##########################################################"
 echo "## $NUM.Closing Worldserver"
 echo "##########################################################"
+echo ""
 screen -XS $SETUP_DEV_REALM_USER kill
 fi
 
 
 ((NUM++))
 if [ "$1" = "all" ] || [ "$1" = "update" ] || [ "$1" = "$NUM" ]; then
+echo ""
 echo "##########################################################"
 echo "## $NUM.Pulling Source"
 echo "##########################################################"
+echo ""
 cd /home/$SETUP_DEV_REALM_USER/
 git clone --single-branch --branch $CORE_BRANCH "https://$CORE_REPO_URL" .
 ## Build source
@@ -83,9 +89,11 @@ fi
 
 ((NUM++))
 if [ "$1" = "all" ] || [ "$1" = "$NUM" ]; then
+echo ""
 echo "##########################################################"
 echo "## $NUM.Setup Data and Logs"
 echo "##########################################################"
+echo ""
 mkdir /home/$SETUP_DEV_REALM_USER/server/
 mkdir /home/$SETUP_DEV_REALM_USER/server/logs/
 mkdir /home/$SETUP_DEV_REALM_USER/server/logs/crashes/
@@ -95,9 +103,11 @@ fi
 
 ((NUM++))
 if [ "$1" = "all" ] || [ "$1" = "$NUM" ]; then
+echo ""
 echo "##########################################################"
 echo "## $NUM.Setup Config"
 echo "##########################################################"
+echo ""
 cd /home/$SETUP_DEV_REALM_USER/server/etc/
 mv worldserver.conf.dist worldserver.conf
 ## Changing Config values
@@ -123,9 +133,11 @@ fi
 
 ((NUM++))
 if [ "$1" = "all" ] || [ "$1" = "$NUM" ]; then
+echo ""
 echo "##########################################################"
 echo "## $NUM.Setup MySQL Users"
 echo "##########################################################"
+echo ""
 mysql --host=$REALM_DB_HOST --port=$REALM_DB_PORT -u $REALM_DB_USER -p$REALM_DB_PASS -e "CREATE DATABASE ${REALM_BRANCH}_world DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;"
 mysql --host=$REALM_DB_HOST --port=$REALM_DB_PORT -u $REALM_DB_USER -p$REALM_DB_PASS -e "CREATE DATABASE ${REALM_BRANCH}_character DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;"
 mysql --host=$REALM_DB_HOST --port=$REALM_DB_PORT -u $REALM_DB_USER -p$REALM_DB_PASS -e "GRANT USAGE ON ${REALM_BRANCH}_world.* TO '${REALM_BRANCH}'@'localhost' IDENTIFIED BY '$REALM_DB_PASS' WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0;"
@@ -137,9 +149,11 @@ fi
 
 ((NUM++))
 if [ "$1" = "all" ] || [ "$1" = "update" ] || [ "$1" = "$NUM" ]; then
+echo ""
 echo "##########################################################"
 echo "## $NUM.Downloading TDB"
 echo "##########################################################"
+echo ""
 # Define variables
 FILENAME="${DB_REPO_URL##*/}" # Get the filename from the URL
 SQLNAME="${FILENAME%.7z}.sql" # Replace .7z with .sql
@@ -155,9 +169,11 @@ fi
 
 ((NUM++))
 if [ "$1" = "all" ] || [ "$1" = "$NUM" ]; then
+echo ""
 echo "##########################################################"
 echo "## $NUM.Download 3.3.5a Client"
 echo "##########################################################"
+echo ""
 cd /home/$SETUP_DEV_REALM_USER/
 wget $335_CLIENT_URL
 URL=$335_CLIENT_URL
@@ -168,9 +184,11 @@ fi
 
 ((NUM++))
 if [ "$1" = "all" ] || [ "$1" = "$NUM" ]; then
+echo ""
 echo "##########################################################"
 echo "## $NUM.Setup Client Tools"
 echo "##########################################################"
+echo ""
 cp /home/$SETUP_DEV_REALM_USER/server/bin/mapextractor /home/$SETUP_DEV_REALM_USER/WoW335/
 cp /home/$SETUP_DEV_REALM_USER/server/bin/vmap4extractor /home/$SETUP_DEV_REALM_USER/WoW335/
 cp /home/$SETUP_DEV_REALM_USER/server/bin/mmaps_generator /home/$SETUP_DEV_REALM_USER/WoW335/
@@ -179,9 +197,11 @@ fi
 
 ((NUM++))
 if [ "$1" = "all" ] || [ "$1" = "$NUM" ]; then
+echo ""
 echo "##########################################################"
 echo "## $NUM.Run Map Extractor"
 echo "##########################################################"
+echo ""
 cd /home/$SETUP_DEV_REALM_USER/WoW335/ && ./mapextractor
 cp /home/$SETUP_DEV_REALM_USER/WoW335/dbc /home/$SETUP_DEV_REALM_USER/server/data/
 cp /home/$SETUP_DEV_REALM_USER/WoW335/Cameras /home/$SETUP_DEV_REALM_USER/server/data/
@@ -190,9 +210,11 @@ fi
 
 ((NUM++))
 if [ "$1" = "all" ] || [ "$1" = "$NUM" ]; then
+echo ""
 echo "##########################################################"
 echo "## $NUM.Run VMap Extractor"
 echo "##########################################################"
+echo ""
 cd /home/$SETUP_DEV_REALM_USER/WoW335/ && ./vmap4extractor && ./vmap4assembler
 cp /home/$SETUP_DEV_REALM_USER/WoW335/Buildings /home/$SETUP_DEV_REALM_USER/server/data/
 cp /home/$SETUP_DEV_REALM_USER/WoW335/vmaps /home/$SETUP_DEV_REALM_USER/server/data/
@@ -200,18 +222,22 @@ fi
 
 ((NUM++))
 if [ "$1" = "all" ] || [ "$1" = "$NUM" ]; then
+echo ""
 echo "##########################################################"
 echo "## $NUM.Run Mmaps Extractor"
 echo "##########################################################"
+echo ""
 cd /home/$SETUP_DEV_REALM_USER/WoW335/ && ./mmaps_generator
 cp /home/$SETUP_DEV_REALM_USER/WoW335/mmaps /home/$SETUP_DEV_REALM_USER/server/data/
 fi
 
 ((NUM++))
 if [ "$1" = "all" ] || [ "$1" = "$NUM" ]; then
+echo ""
 echo "##########################################################"
 echo "## $NUM.Update Realmlist"
 echo "##########################################################"
+echo ""
 if [ $SETUP_REALMLIST == "true" ]; then
 # Get the external IP address
 EXTERNAL_IP=$(curl -s http://ifconfig.me)
@@ -227,9 +253,11 @@ fi
 
 ((NUM++))
 if [ "$1" = "all" ] || [ "$1" = "$NUM" ]; then
+echo ""
 echo "##########################################################"
 echo "## $NUM.Setup Linux Restarter Scripts"
 echo "##########################################################"
+echo ""
 mkdir /home/$SETUP_DEV_REALM_USER/server/scripts/
 mkdir /home/$SETUP_DEV_REALM_USER/server/scripts/Restarter/
 mkdir /home/$SETUP_DEV_REALM_USER/server/scripts/Restarter/World/
@@ -247,9 +275,11 @@ fi
 
 if [ "$1" = "all" ] || [ "$1" = "$NUM" ]; then
 ((NUM++))
+echo ""
 echo "##########################################################"
 echo "## $NUM.Setup Misc Scripts"
 echo "##########################################################"
+echo ""
 cp -r -u /home/$INSTALL_PATH/scripts/Clean-Logs.sh /home/$SETUP_DEV_REALM_USER/server/scripts/
 chmod +x  /home/$SETUP_DEV_REALM_USER/server/scripts/Clean-Logs.sh
 cd /home/$SETUP_DEV_REALM_USER/server/scripts/
@@ -258,9 +288,11 @@ fi
 
 ((NUM++))
 if [ "$1" = "all" ] || [ "$1" = "$NUM" ]; then
+echo ""
 echo "##########################################################"
 echo "## $NUM.Setup Crontab"
 echo "##########################################################"
+echo ""
 if [ $SETUP_TYPE == "GDB" ]; then
 	echo "Setup Restarter in GDB mode...."
 	crontab -l | { cat; echo "############## START WORLD ##############"; } | crontab -
@@ -285,9 +317,11 @@ fi
 
 ((NUM++))
 if [ "$1" = "all" ] || [ "$1" = "$NUM" ]; then
+echo ""
 echo "##########################################################"
 echo "## $NUM.Setup Script Alias"
 echo "##########################################################"
+echo ""
 if grep -Fxq "#### CUSTOM ALIAS" ~/.bashrc
 then
 	echo "header present"
@@ -340,9 +374,11 @@ fi
 
 ((NUM++))
 if [ "$1" = "all" ] || [ "$1" = "$NUM" ]; then
+echo ""
 echo "##########################################################"
 echo "## $NUM.Start Server"
 echo "##########################################################"
+echo ""
 if [ $SETUP_TYPE == "GDB" ]; then
 	echo "REALM STARTED IN GDB MODE!"
 	/home/$SETUP_DEV_REALM_USER/server/scripts/Restarter/World/GDB/start_gdb.sh
@@ -354,8 +390,12 @@ fi
 fi
 
 
-## FINISH SCRIPT
-echo "SCRIPT FINISHED"
+echo ""
+echo "##########################################################"
+echo "## DEV REALM INSTALLED AND FINISHED!"
+echo "##########################################################"
+echo ""
+
 
 
 fi
