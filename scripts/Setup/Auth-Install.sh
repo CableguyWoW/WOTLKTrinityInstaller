@@ -15,9 +15,10 @@ echo "You must run this script under the $SETUP_AUTH_USER user!"
 else
 
 ## LETS START
-echo ""
-echo "## AUTH INSTALL SCRIPT STARTING...."
-START=$(date +%s);
+echo "##########################################################"
+echo "## AUTH SERVER INSTALL SCRIPT STARTING...."
+echo "##########################################################"
+NUM=0
 export DEBIAN_FRONTEND=noninteractive
 
 
@@ -28,32 +29,35 @@ echo ""
 echo "- [all] : Run Full Script"
 echo "- [update] : Update Source and DB"
 echo ""
-echo "- [1] : Close Authserver"
-echo "- [2] : Pull and Setup Source"
-echo "- [3] : Setup Authserver Config"
-echo "- [4] : Setup MySQL Users and DB"
-echo "- [5] : Setup Restarter"
-echo "- [6] : Setup Backup Folder"
-echo "- [7] : Setup Crontab"
-echo "- [8] : Setup Alias"
-echo "- [9] : Start Authserver"
+((NUM++)); echo "- [$NUM] : Close Authserver"
+((NUM++)); echo "- [$NUM] : Pull and Setup Source"
+((NUM++)); echo "- [$NUM] : Setup Authserver Config"
+((NUM++)); echo "- [$NUM] : Setup MySQL Users and DB"
+((NUM++)); echo "- [$NUM] : Setup Restarter"
+((NUM++)); echo "- [$NUM] : Setup Backup Folder"
+((NUM++)); echo "- [$NUM] : Setup Crontab"
+((NUM++)); echo "- [$NUM] : Setup Alias"
+((NUM++)); echo "- [$NUM] : Start Authserver"
 echo ""
 
 else
 
-
-if [ "$1" = "all" ] || [ "$1" = "update" ] || [ "$1" = "1" ]; then
-## [1]
-## Closing Authserver
+NUM=0
+((NUM++))
+if [ "$1" = "all" ] || [ "$1" = "update" ] || [ "$1" = "$NUM" ]; then
+echo "##########################################################"
+echo "## $NUM.Closing Authserver"
+echo "##########################################################"
 echo "Closing authserver for setup."
 screen -XS $SETUP_AUTH_USER kill
 fi
 
 
-if [ "$1" = "all" ] || [ "$1" = "update" ] || [ "$1" = "2" ]; then
-## [2]
-## Adding specific users and pulling source
-echo "Pulling source...."
+((NUM++))
+if [ "$1" = "all" ] || [ "$1" = "update" ] || [ "$1" = "$NUM" ]; then
+echo "##########################################################"
+echo "## $NUM.Pulling source"
+echo "##########################################################"
 cd /home/$SETUP_AUTH_USER/
 mkdir /home/$SETUP_AUTH_USER/
 mkdir /home/$SETUP_AUTH_USER/server/
@@ -69,10 +73,11 @@ cmake ../ -DCMAKE_INSTALL_PREFIX=/home/$SETUP_AUTH_USER/server -DSCRIPTS="none" 
 fi
 
 
-if [ "$1" = "all" ] || [ "$1" = "3" ]; then
-## [3]
-## Setup Config
-echo "Updating Config"
+((NUM++))
+if [ "$1" = "all" ] || [ "$1" = "$NUM" ]; then
+echo "##########################################################"
+echo "## $NUM.Setup Config"
+echo "##########################################################"
 cd /home/$SETUP_AUTH_USER/server/etc/
 mv authserver.conf.dist authserver.conf
 ## Changing Config values
@@ -83,9 +88,11 @@ sed -i "s/127.0.0.1;3306;trinity;trinity;auth/${AUTH_DB_HOST};${AUTH_DB_PORT};${
 fi
 
 
-if [ "$1" = "all" ] || [ "$1" = "4" ]; then
-## [4]
-## Setup MySQL
+((NUM++))
+if [ "$1" = "all" ] || [ "$1" = "$NUM" ]; then
+echo "##########################################################"
+echo "## $NUM.Setup MySQL"
+echo "##########################################################"
 mysql --port=$AUTH_DB_PORT -u $AUTH_DB_USER -p$AUTH_DB_PASS -e "CREATE DATABASE auth DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;"
 mysql --port=$AUTH_DB_PORT -u $AUTH_DB_USER -p$AUTH_DB_PASS -e "CREATE DATABASE auth_custom DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;"
 mysql --port=$AUTH_DB_PORT -u $AUTH_DB_USER -p$AUTH_DB_PASS -e "GRANT USAGE ON auth.* TO '$AUTH_DB_USER'@'localhost' IDENTIFIED BY '$AUTH_DB_PASS' WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0;"
@@ -96,10 +103,11 @@ mysql --port=$AUTH_DB_PORT -u $AUTH_DB_USER -p$AUTH_DB_PASS -e "FLUSH PRIVILEGES
 fi
 
 
+((NUM++))
 if [ "$1" = "all" ] || [ "$1" = "5" ]; then
-## [5]
-## DOWNLOAD LINUX SCRIPTS
-echo "Download Linux Scripts"
+echo "##########################################################"
+echo "## $NUM.Setup Restarter"
+echo "##########################################################"
 mkdir /home/$SETUP_AUTH_USER/server/scripts/
 mkdir /home/$SETUP_AUTH_USER/server/scripts/Restarter/
 mkdir /home/$SETUP_AUTH_USER/server/scripts/Restarter/Auth/
@@ -110,17 +118,21 @@ sed -i "s/realmname/$SETUP_AUTH_USER/g" /home/$SETUP_AUTH_USER/server/scripts/Re
 fi
 
 
-if [ "$1" = "all" ] || [ "$1" = "7" ]; then
-## [7]
-## SETUP CRONTAB
+((NUM++))
+if [ "$1" = "all" ] || [ "$1" = "$NUM" ]; then
+echo "##########################################################"
+echo "## $NUM.Setup Crontab"
+echo "##########################################################"
 crontab -l | { cat; echo "############## START AUTHSERVER ##############"; } | crontab -
 crontab -l | { cat; echo "@reboot /home/$SETUP_AUTH_USER/server/scripts/Restarter/Auth/start.sh"; } | crontab -
 fi
 
 
-if [ "$1" = "all" ] || [ "$1" = "8" ]; then
-## [8]
-## Setup Script Alias
+((NUM++))
+if [ "$1" = "all" ] || [ "$1" = "$NUM" ]; then
+echo "##########################################################"
+echo "## $NUM.Setup Script Alias"
+echo "##########################################################"
 if grep -Fxq "#### CUSTOM ALIAS" ~/.bashrc
 then
 	echo "header present"
@@ -155,15 +167,16 @@ echo "Added script alias to bashrc"
 fi
 
 
-if [ "$1" = "all" ] || [ "$1" = "update" ] || [ "$1" = "9" ]; then
-## [9]
-echo "Authserver Starting...!"
+((NUM++))
+if [ "$1" = "all" ] || [ "$1" = "update" ] || [ "$1" = "$NUM" ]; then
+echo "##########################################################"
+echo "## $NUM.Starting Authserver"
+echo "##########################################################"
 /home/$SETUP_AUTH_USER/server/scripts/Restarter/Auth/start.sh
 fi
 
-
-## FINISH SCRIPT
-echo "### AUTH INSTALLED AND FINISHED!"
-
+echo "##########################################################"
+echo "## AUTH INSTALLED AND FINISHED!"
+echo "##########################################################"
 
 fi

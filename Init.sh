@@ -15,11 +15,9 @@ else
 
 ### LETS START
 echo "##########################################################"
-echo "## SCRIPT STARTING...."
+echo "## INIT SCRIPT STARTING...."
 echo "##########################################################"
-START=$(date +%s);
 export DEBIAN_FRONTEND=noninteractive
-
 
 ## Updating config permissions
 echo "Updating config permissions"
