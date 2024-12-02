@@ -5,7 +5,7 @@
 
 . /root/WOTLKTrinityInstaller/configs/root-config
 . /root/WOTLKTrinityInstaller/configs/backup-config
-. /root/WOTLKTrinityInstaller/configs/auth/auth-config
+. /root/WOTLKTrinityInstaller/configs/auth-config
 . /root/WOTLKTrinityInstaller/configs/realm-dev-config
 
 ### LETS START

@@ -3,8 +3,8 @@
 ### SCRIPT INSTALL SCRIPT
 ### TESTED WITH DEBIAN ONLY
 
-. ./configs/root-config
-. ./configs/repo-config
+. /root/WOTLKTrinityInstaller/configs/root-config
+. /root/WOTLKTrinityInstaller/configs/repo-config
 
 if [ ! -f ./configs/root-config ] || [ ! -f ./configs/repo-config ]; then
     echo "Config file not found! Add configs!"
