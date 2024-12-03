@@ -23,6 +23,7 @@ echo "## No option selected, see list below"
 echo ""
 echo "- [all] : Run Full Script"
 echo ""
+((NUM++)); echo "- [$NUM] : Randomize Passwords"
 ((NUM++)); echo "- [$NUM] : Install TrinityCore Requirements"
 ((NUM++)); echo "- [$NUM] : Install and Setup MySQL"
 ((NUM++)); echo "- [$NUM] : Create Remote MySQL user"
@@ -35,6 +36,43 @@ echo ""
 
 
 else
+
+((NUM++))
+if [ "$1" = "all" ] || [ "$1" = "$NUM" ]; then
+echo ""
+echo "##########################################################"
+echo "## $NUM.Randomize Passwords"
+echo "##########################################################"
+echo ""
+replace_randomizepass() 
+{
+    local files="$1"         # File pattern to search for (e.g., *.txt)
+    local min_length="${2:-12}"     # Minimum length of the password; default is 12
+    local max_length="${3:-16}"     # Maximum length of the password; default is 16
+
+    # Loop through the files matching the pattern
+    for file in $files; do
+        if [[ -f "$file" ]]; then   # Check if it's a file
+            while IFS= read -r line; do
+                # Replace "RANDOMIZEPASS" with a new random password
+                echo "${line//RANDOMIZEPASS/$(generate_random_password $min_length $max_length)}"
+            done < "$file" > "$file.tmp"  # Write the output to a temp file
+            mv "$file.tmp" "$file"        # Overwrite the original file
+            echo "Processed: $file"
+        fi
+    done
+}
+
+generate_random_password() 
+{
+    local length=$((RANDOM % (max_length - min_length + 1) + min_length))
+    # Use /dev/urandom for generating a random password
+    tr -dc 'A-Za-z0-9' < /dev/urandom | head -c "$length"
+}
+
+# Call the function with arguments
+replace_randomizepass "/root/WOTLKTrinityInstaller/configs/*"  # Example: replace in all .txt files
+fi
 
 
 ((NUM++))

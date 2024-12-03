@@ -126,9 +126,9 @@ sed -i 's^SourceDirectory  = ""^SourceDirectory  = "/home/'${SETUP_DEV_REALM_USE
 ## LoginDatabaseInfo
 sed -i "s/127.0.0.1;3306;trinity;trinity;auth/${REALM_DB_HOST};${REALM_DB_PORT};${REALM_DB_USER};${REALM_DB_PASS};${AUTH_WORLD_DB_DB}/g" worldserver.conf
 ## WorldDatabaseInfo
-sed -i "s/127.0.0.1;3306;trinity;trinity;world/${REALM_DB_HOST};${REALM_DB_PORT};${REALM_DB_USER};${REALM_DB_PASS};${REALM_BRANCH}_world/g" worldserver.conf
+sed -i "s/127.0.0.1;3306;trinity;trinity;world/${REALM_DB_HOST};${REALM_DB_PORT};${REALM_DB_USER};${REALM_DB_PASS};${SETUP_WORLD_USER}_world/g" worldserver.conf
 ## CharacterDatabaseInfo
-sed -i "s/127.0.0.1;3306;trinity;trinity;characters/${REALM_DB_HOST};${REALM_DB_PORT};${REALM_DB_USER};${REALM_DB_PASS};${REALM_BRANCH}_character/g" worldserver.conf
+sed -i "s/127.0.0.1;3306;trinity;trinity;characters/${REALM_DB_HOST};${REALM_DB_PORT};${REALM_DB_USER};${REALM_DB_PASS};${SETUP_WORLD_USER}_character/g" worldserver.conf
 fi
 
 ((NUM++))
@@ -138,12 +138,12 @@ echo "##########################################################"
 echo "## $NUM.Setup MySQL Users"
 echo "##########################################################"
 echo ""
-mysql --host=$REALM_DB_HOST --port=$REALM_DB_PORT -u $REALM_DB_USER -p$REALM_DB_PASS -e "CREATE DATABASE ${REALM_BRANCH}_world DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;"
-mysql --host=$REALM_DB_HOST --port=$REALM_DB_PORT -u $REALM_DB_USER -p$REALM_DB_PASS -e "CREATE DATABASE ${REALM_BRANCH}_character DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;"
-mysql --host=$REALM_DB_HOST --port=$REALM_DB_PORT -u $REALM_DB_USER -p$REALM_DB_PASS -e "GRANT USAGE ON ${REALM_BRANCH}_world.* TO '${REALM_BRANCH}'@'localhost' IDENTIFIED BY '$REALM_DB_PASS' WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0;"
-mysql --host=$REALM_DB_HOST --port=$REALM_DB_PORT -u $REALM_DB_USER -p$REALM_DB_PASS -e "GRANT USAGE ON ${REALM_BRANCH}_character.* TO '${REALM_BRANCH}'@'localhost' IDENTIFIED BY '$REALM_DB_PASS' WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0;"
-mysql --host=$REALM_DB_HOST --port=$REALM_DB_PORT -u $REALM_DB_USER -p$REALM_DB_PASS -e "GRANT ALL PRIVILEGES ON ${REALM_BRANCH}_world.* TO '${REALM_BRANCH}'@'localhost' WITH GRANT OPTION;"
-mysql --host=$REALM_DB_HOST --port=$REALM_DB_PORT -u $REALM_DB_USER -p$REALM_DB_PASS -e "GRANT ALL PRIVILEGES ON ${REALM_BRANCH}_character.* TO '${REALM_BRANCH}'@'localhost' WITH GRANT OPTION;"
+mysql --host=$REALM_DB_HOST --port=$REALM_DB_PORT -u $REALM_DB_USER -p$REALM_DB_PASS -e "CREATE DATABASE ${SETUP_WORLD_USER}_world DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;"
+mysql --host=$REALM_DB_HOST --port=$REALM_DB_PORT -u $REALM_DB_USER -p$REALM_DB_PASS -e "CREATE DATABASE ${SETUP_WORLD_USER}_character DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;"
+mysql --host=$REALM_DB_HOST --port=$REALM_DB_PORT -u $REALM_DB_USER -p$REALM_DB_PASS -e "GRANT USAGE ON ${SETUP_WORLD_USER}_world.* TO '${SETUP_WORLD_USER}'@'localhost' IDENTIFIED BY '$REALM_DB_PASS' WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0;"
+mysql --host=$REALM_DB_HOST --port=$REALM_DB_PORT -u $REALM_DB_USER -p$REALM_DB_PASS -e "GRANT USAGE ON ${SETUP_WORLD_USER}_character.* TO '${SETUP_WORLD_USER}'@'localhost' IDENTIFIED BY '$REALM_DB_PASS' WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0;"
+mysql --host=$REALM_DB_HOST --port=$REALM_DB_PORT -u $REALM_DB_USER -p$REALM_DB_PASS -e "GRANT ALL PRIVILEGES ON ${SETUP_WORLD_USER}_world.* TO '${SETUP_WORLD_USER}'@'localhost' WITH GRANT OPTION;"
+mysql --host=$REALM_DB_HOST --port=$REALM_DB_PORT -u $REALM_DB_USER -p$REALM_DB_PASS -e "GRANT ALL PRIVILEGES ON ${SETUP_WORLD_USER}_character.* TO '${SETUP_WORLD_USER}'@'localhost' WITH GRANT OPTION;"
 mysql --host=$REALM_DB_HOST --port=$REALM_DB_PORT -u $REALM_DB_USER -p$REALM_DB_PASS -e "FLUSH PRIVILEGES;"
 fi
 
