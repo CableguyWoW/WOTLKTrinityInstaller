@@ -19,6 +19,8 @@ echo "## INIT SCRIPT STARTING...."
 echo "##########################################################"
 export DEBIAN_FRONTEND=noninteractive
 
+sudo apt install p7zip-full dos2unix gnupg --assume-yes
+
 ## Updating config permissions
 echo "Updating config permissions"
 find /root/WOTLKTrinityInstaller/ -type d -exec chmod 755 {} +
@@ -31,7 +33,6 @@ echo "Updating Script permissions"
 find /root/WOTLKTrinityInstaller/scripts -type d -exec chmod 755 {} +
 find /root/WOTLKTrinityInstaller/scripts -type f -exec chmod 755 {} +
 sudo chmod -R 775 /root/WOTLKTrinityInstaller/
-sudo apt install p7zip-full dos2unix gnupg --assume-yes
 find /root/WOTLKTrinityInstaller/*.sh -type f -exec dos2unix {} \;
 find /root/WOTLKTrinityInstaller/configs/ -type f -exec dos2unix {} \;
 cd /root/WOTLKTrinityInstaller/scripts/Setup/
