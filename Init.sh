@@ -19,6 +19,7 @@ echo "## INIT SCRIPT STARTING...."
 echo "##########################################################"
 export DEBIAN_FRONTEND=noninteractive
 
+sudo apt update -y
 sudo apt install p7zip-full dos2unix gnupg --assume-yes
 
 ## Updating config permissions
