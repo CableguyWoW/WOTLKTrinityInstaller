@@ -153,7 +153,7 @@ sudo ufw allow 22
 # MySQL
 sudo ufw allow 3306
 if [ $SETUP_DEV_WORLD == "true" ]; then
-    sudo ufw allow $SETUP_DEV_REALM_PORT
+    sudo ufw allow $SETUP_REALM_PORT
 fi
 if [ $SETUP_AUTH == "true" ]; then
     sudo ufw allow 3724
