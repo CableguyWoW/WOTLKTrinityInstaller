@@ -169,8 +169,8 @@ echo "## $NUM.Setup Linux Users"
 echo "##########################################################"
 echo ""
 if [ $SETUP_DEV_WORLD == "true" ]; then
-	sudo useradd -m -p $SETUP_DEV_REALM_PASS -s /bin/bash $SETUP_DEV_REALM_USER
-    echo "Added $SETUP_DEV_REALM_USER User account"
+	sudo useradd -m -p $SETUP_WORLD_PASS -s /bin/bash $SETUP_WORLD_USER
+    echo "Added $SETUP_WORLD_USER User account"
 fi
 if [ $SETUP_AUTH == "true" ]; then
 	sudo useradd -m -p $SETUP_AUTH_PASS -s /bin/bash $SETUP_AUTH_USER
