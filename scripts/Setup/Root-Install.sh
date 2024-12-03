@@ -170,9 +170,11 @@ echo "##########################################################"
 echo ""
 if [ $SETUP_DEV_WORLD == "true" ]; then
 	sudo useradd -m -p $SETUP_DEV_REALM_PASS -s /bin/bash $SETUP_DEV_REALM_USER
+    echo "Added $SETUP_DEV_REALM_USER User account"
 fi
 if [ $SETUP_AUTH == "true" ]; then
 	sudo useradd -m -p $SETUP_AUTH_PASS -s /bin/bash $SETUP_AUTH_USER
+    echo "Added $SETUP_AUTH_USER User account"
 fi
 fi
 
