@@ -6,6 +6,7 @@ REALM_ID="1"
 REALM_ZONE="8" # https://wowdev.wiki/DB/Cfg_Categories
 
 ########## SETUP SETTINGS
+SETUP_DEV_REALM_PORT="8085"
 SETUP_TYPE="GDB" #GDB or Normal
 SETUP_DEV_WORLD="true"
 SETUP_REALMLIST="true"
