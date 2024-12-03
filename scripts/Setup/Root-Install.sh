@@ -82,7 +82,28 @@ echo "##########################################################"
 echo "## $NUM.Installing Trinity requirements"
 echo "##########################################################"
 echo ""
-sudo apt update -y
+check_libmysqlclient_dev() {
+    while true; do
+        echo "Updating package lists..."
+        sudo apt update
+        
+        echo "Upgrading installed packages..."
+        sudo apt upgrade -y
+        
+        echo "Checking if libmysqlclient-dev is available..."
+        
+        if apt-cache policy libmysqlclient-dev | grep -q "Installed: (none)"; then
+            echo "libmysqlclient-dev is not available yet, retrying..."
+            sleep 1  # Wait for 5 seconds before retrying
+        else
+            echo "libmysqlclient-dev is available for installation."
+            break
+        fi
+    done
+}
+
+# Call the function
+check_libmysqlclient_dev
 wget https://dev.mysql.com/get/mysql-apt-config_0.8.29-1_all.deb -O /tmp/mysql-apt-config_all.deb
 DEBIAN_FRONTEND=noninteractive dpkg -i /tmp/mysql-apt-config_all.deb
 sudo apt-get install git clang cmake make gcc g++ libmysqlclient-dev libssl-dev libbz2-dev libreadline-dev libncurses-dev libboost-all-dev p7zip --assume-yes

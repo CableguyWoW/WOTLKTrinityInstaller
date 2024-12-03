@@ -19,8 +19,6 @@ echo "## INIT SCRIPT STARTING...."
 echo "##########################################################"
 export DEBIAN_FRONTEND=noninteractive
 
-sudo apt update -y
-sudo apt install git clang cmake make gcc g++ libmysqlclient-dev libssl-dev libbz2-dev libreadline-dev libncurses-dev libboost-all-dev p7zip --assume-yes
 sudo apt install p7zip-full dos2unix gnupg --assume-yes
 
 ## Updating config permissions
