@@ -37,6 +37,10 @@ find /root/WOTLKTrinityInstaller/*.sh -type f -exec dos2unix {} \;
 find /root/WOTLKTrinityInstaller/configs/ -type f -exec dos2unix {} \;
 cd /root/WOTLKTrinityInstaller/scripts/Setup/
 
+wget https://dev.mysql.com/get/mysql-apt-config_0.8.29-1_all.deb -O /tmp/mysql-apt-config_all.deb
+DEBIAN_FRONTEND=noninteractive dpkg -i /tmp/mysql-apt-config_all.deb
+sudo apt update -y
+
 echo "##########################################################"
 echo "INIT FINISHED"
 echo "Run the following : cd /root/WOTLKTrinityInstaller/scripts/Setup/ && ./Root-Install.sh all"
