@@ -137,7 +137,6 @@ else
         echo "Its highly recommended to change the remote MYSQL user password as it will be public."
         echo "YOU HAVE BEEN WARNED!"
         echo ""
-        read -p "Do you want to change the password? (y/n): " yn
         while true; do
             read -p "Do you want to change the password? (y/n): " yn
             if [[ "$yn" =~ ^[Yy]$ ]]; then
