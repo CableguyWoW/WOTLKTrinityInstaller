@@ -85,7 +85,10 @@ echo "## $NUM.Setup Config"
 echo "##########################################################"
 echo ""
 cd /home/$SETUP_AUTH_USER/server/etc/
-mv authserver.conf.dist authserver.conf
+if [ -f "authserver.conf.dist" ]; then
+    mv "authserver.conf.dist" "authserver.conf"
+    echo "Moved authserver.conf.dist to authserver.conf."
+fi
 ## Changing Config values
 echo "Changing Config values"
 sed -i 's^LogsDir = ""^LogsDir = ""/home/'${SETUP_AUTH_USER}'/public/logs"^g' authserver.conf
@@ -101,13 +104,13 @@ echo "##########################################################"
 echo "## $NUM.Setup MySQL"
 echo "##########################################################"
 echo ""
-mysql --port=$AUTH_DB_PORT -u $AUTH_DB_USER -p$AUTH_DB_PASS -e "CREATE DATABASE auth DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;"
-mysql --port=$AUTH_DB_PORT -u $AUTH_DB_USER -p$AUTH_DB_PASS -e "CREATE DATABASE auth_custom DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;"
-mysql --port=$AUTH_DB_PORT -u $AUTH_DB_USER -p$AUTH_DB_PASS -e "GRANT USAGE ON auth.* TO '$AUTH_DB_USER'@'localhost' IDENTIFIED BY '$AUTH_DB_PASS' WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0;"
-mysql --port=$AUTH_DB_PORT -u $AUTH_DB_USER -p$AUTH_DB_PASS -e "GRANT USAGE ON auth_custom.* TO '$AUTH_DB_USER'@'localhost' IDENTIFIED BY '$AUTH_DB_PASS' WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0;"
-mysql --port=$AUTH_DB_PORT -u $AUTH_DB_USER -p$AUTH_DB_PASS -e "GRANT ALL PRIVILEGES ON auth.* TO '$AUTH_DB_USER'@'localhost' WITH GRANT OPTION;"
-mysql --port=$AUTH_DB_PORT -u $AUTH_DB_USER -p$AUTH_DB_PASS -e "GRANT ALL PRIVILEGES ON auth_custom.* TO '$AUTH_DB_USER'@'localhost' WITH GRANT OPTION;"
-mysql --port=$AUTH_DB_PORT -u $AUTH_DB_USER -p$AUTH_DB_PASS -e "FLUSH PRIVILEGES;"
+mysql --port="$AUTH_DB_PORT" -u "$ROOT_USER" -p"$ROOT_PASS" -e "CREATE DATABASE auth DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;"
+mysql --port="$AUTH_DB_PORT" -u "$ROOT_USER" -p"$ROOT_PASS" -e "CREATE DATABASE auth_custom DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;"
+mysql --port="$AUTH_DB_PORT" -u "$ROOT_USER" -p"$ROOT_PASS" -e "GRANT USAGE ON auth.* TO '$AUTH_DB_USER'@'localhost' IDENTIFIED BY '$AUTH_DB_PASS' WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0;"
+mysql --port="$AUTH_DB_PORT" -u "$ROOT_USER" -p"$ROOT_PASS" -e "GRANT USAGE ON auth_custom.* TO '$AUTH_DB_USER'@'localhost' IDENTIFIED BY '$AUTH_DB_PASS' WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0;"
+mysql --port="$AUTH_DB_PORT" -u "$ROOT_USER" -p"$ROOT_PASS" -e "GRANT ALL PRIVILEGES ON auth.* TO '$AUTH_DB_USER'@'localhost' WITH GRANT OPTION;"
+mysql --port="$AUTH_DB_PORT" -u "$ROOT_USER" -p"$ROOT_PASS" -e "GRANT ALL PRIVILEGES ON auth_custom.* TO '$AUTH_DB_USER'@'localhost' WITH GRANT OPTION;"
+mysql --port="$AUTH_DB_PORT" -u "$ROOT_USER" -p"$ROOT_PASS" -e "FLUSH PRIVILEGES;"
 fi
 
 
