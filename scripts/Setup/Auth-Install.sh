@@ -68,7 +68,7 @@ mkdir /home/$SETUP_AUTH_USER/server/
 mkdir /home/$SETUP_AUTH_USER/logs/
 mkdir /home/$SETUP_AUTH_USER/logs/crashes/
 ## Source install
-git clone --single-branch --branch $AUTH_BRANCH "$CORE_REPO_URL" .
+git clone --single-branch --branch $AUTH_BRANCH "$CORE_REPO_URL" TrinityCore
 ## Build source
 echo "Building source...."
 cd /home/$SETUP_AUTH_USER/TrinityCore/

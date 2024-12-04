@@ -76,7 +76,7 @@ echo "## $NUM.Pulling Source"
 echo "##########################################################"
 echo ""
 cd /home/$SETUP_REALM_USER/
-git clone --single-branch --branch $CORE_BRANCH "https://$CORE_REPO_URL" .
+git clone --single-branch --branch $CORE_BRANCH "https://$CORE_REPO_URL" TrinityCore
 ## Build source
 echo "Building Source"
 cd TrinityCore
