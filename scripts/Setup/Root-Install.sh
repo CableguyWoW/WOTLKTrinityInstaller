@@ -3,9 +3,9 @@
 ### TRINITYCORE INSTALL SCRIPT
 ### TESTED WITH DEBIAN ONLY
 
-. /root/WOTLKTrinityInstaller/configs/root-config
-. /root/WOTLKTrinityInstaller/configs/auth-config
-. /root/WOTLKTrinityInstaller/configs/realm-dev-config
+. /WOTLKTrinityInstaller/configs/root-config
+. /WOTLKTrinityInstaller/configs/auth-config
+. /WOTLKTrinityInstaller/configs/realm-dev-config
 
 ### LETS START
 echo ""
@@ -190,10 +190,10 @@ echo "## $NUM.Root install script finished"
 echo "##########################################################"
 echo ""
 echo "####  FOR AUTHSERVER INSTALL ####"
-echo "run 'cd /root/WOTLKTrinityInstaller/scripts/Setup/ && ./Auth-Install.sh' on the $SETUP_AUTH_USER user"
+echo "run 'cd /WOTLKTrinityInstaller/scripts/Setup/ && ./Auth-Install.sh' on the $SETUP_AUTH_USER user"
 echo ""
 echo "####  FOR DEV REALM INSTALL ####"
-echo "run 'cd /root/WOTLKTrinityInstaller/scripts/Setup/ && ./Realm-Dev-Install.sh' on the $SETUP_REALM_USER user"
+echo "run 'cd /WOTLKTrinityInstaller/scripts/Setup/ && ./Realm-Dev-Install.sh' on the $SETUP_REALM_USER user"
 echo ""
 fi
 fi

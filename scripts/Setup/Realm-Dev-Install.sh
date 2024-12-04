@@ -3,11 +3,11 @@
 ### TRINITYCORE INSTALL SCRIPT
 ### TESTED WITH UBUNTU ONLY
 
-. /root/WOTLKTrinityInstaller/configs/root-config
-. /root/WOTLKTrinityInstaller/configs/backup-config
-. /root/WOTLKTrinityInstaller/configs/repo-config
-. /root/WOTLKTrinityInstaller/configs/auth-config
-. /root/WOTLKTrinityInstaller/configs/realm-dev-config
+. /WOTLKTrinityInstaller/configs/root-config
+. /WOTLKTrinityInstaller/configs/backup-config
+. /WOTLKTrinityInstaller/configs/repo-config
+. /WOTLKTrinityInstaller/configs/auth-config
+. /WOTLKTrinityInstaller/configs/realm-dev-config
 
 if [ $USER != "$SETUP_REALM_USER" ]; then
 

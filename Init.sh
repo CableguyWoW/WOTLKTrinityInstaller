@@ -3,8 +3,8 @@
 ### SCRIPT INSTALL SCRIPT
 ### TESTED WITH DEBIAN ONLY
 
-. /root/WOTLKTrinityInstaller/configs/root-config
-. /root/WOTLKTrinityInstaller/configs/repo-config
+. /WOTLKTrinityInstaller/configs/root-config
+. /WOTLKTrinityInstaller/configs/repo-config
 
 if [ ! -f ./configs/root-config ] || [ ! -f ./configs/repo-config ]; then
     echo "Config file not found! Add configs!"
@@ -56,29 +56,12 @@ fi
 if [ "$1" = "all" ] || [ "$1" = "$NUM" ]; then
 echo ""
 echo "##########################################################"
-echo "## $NUM.Update Config permissions"
+echo "## $NUM.Update permissions"
 echo "##########################################################"
 echo ""
-find /root/WOTLKTrinityInstaller/ -type d -exec chmod 755 {} +
-find /root/WOTLKTrinityInstaller/ -type f -exec chmod 755 {} +
-sudo chmod -R 775 /root/WOTLKTrinityInstaller/
-find /root/WOTLKTrinityInstaller/ -type f -exec dos2unix {} \;
-fi
-
-
-((NUM++))
-if [ "$1" = "all" ] || [ "$1" = "$NUM" ]; then
-echo ""
-echo "##########################################################"
-echo "## $NUM.Update Script permissions"
-echo "##########################################################"
-echo ""
-find /root/WOTLKTrinityInstaller/scripts -type d -exec chmod 755 {} +
-find /root/WOTLKTrinityInstaller/scripts -type f -exec chmod 755 {} +
-sudo chmod -R 775 /root/WOTLKTrinityInstaller/
-find /root/WOTLKTrinityInstaller/*.sh -type f -exec dos2unix {} \;
-find /root/WOTLKTrinityInstaller/configs/ -type f -exec dos2unix {} \;
-cd /root/WOTLKTrinityInstaller/scripts/Setup/
+sudo find /WOTLKTrinityInstaller/ -type d -name ".git" -prune -o -type f -exec dos2unix {} \;
+sudo chmod -R 777 /WOTLKTrinityInstaller/
+cd /WOTLKTrinityInstaller/scripts/Setup/
 fi
 
 
@@ -120,16 +103,14 @@ replace_randomizepass()
         fi
     done
 }
-
 generate_random_password() 
 {
     local length=$((RANDOM % (max_length - min_length + 1) + min_length))
     # Use /dev/urandom for generating a random password
     tr -dc 'A-Za-z0-9' < /dev/urandom | head -c "$length"
 }
-
 if [ "$RANDOMIZE_PASSWORDS" = "true" ]; then
-    replace_randomizepass "/root/WOTLKTrinityInstaller/configs/*"  # Example: replace in all .txt files
+    replace_randomizepass "/WOTLKTrinityInstaller/configs/*"  # Example: replace in all .txt files
 else
     echo "Password randomiztion disabled, the default password is password123"
     echo ""
@@ -142,7 +123,7 @@ else
             if [[ "$yn" =~ ^[Yy]$ ]]; then
                 read -sp "Enter the new password: " NEW_PASSWORD
                 echo ""  # New line after password input
-                CONFIG_FILE="/root/WOTLKTrinityInstaller/configs/root-config"  # Define the config file path
+                CONFIG_FILE="/WOTLKTrinityInstaller/configs/root-config"  # Define the config file path
                 
                 if [[ -f "$CONFIG_FILE" ]]; then
                     sed -i "s|REMOTE_DB_PASS=\"password123\"|REMOTE_DB_PASS=\"$NEW_PASSWORD\"|" "$CONFIG_FILE" && echo "Password updated successfully in $CONFIG_FILE."
@@ -170,7 +151,7 @@ echo "##########################################################"
 echo "## $NUM.Setup Commands"
 echo "##########################################################"
 echo ""
-echo "All passwords are stored in - /root/WOTLKTrinityInstaller/configs/"
+echo "All passwords are stored in - /WOTLKTrinityInstaller/configs/"
 if [ "$RANDOMIZE_PASSWORDS" = "true" ]; then
     echo "The default passwords setup is : password123"
 fi
@@ -178,7 +159,7 @@ if [ "$remote_db_update" = "true" ]; then
     echo "The REMOTE_DB_PASS has been updated to the users inputted password."
 fi
 echo ""
-echo "Next - Run the following : cd /root/WOTLKTrinityInstaller/scripts/Setup/ && ./Root-Install.sh all"
+echo "Next - Run the following : cd /WOTLKTrinityInstaller/scripts/Setup/ && ./Root-Install.sh all"
 echo ""
 echo "##########################################################"
 echo ""
