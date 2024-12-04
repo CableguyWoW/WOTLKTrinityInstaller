@@ -46,7 +46,7 @@ echo "## $NUM.Installing Trinity requirements"
 echo "##########################################################"
 echo ""
 sudo apt update -y
-sudo apt-get install git clang cmake make gcc g++ libmysqlclient-dev libssl-dev libbz2-dev libreadline-dev libncurses-dev libboost-all-dev p7zip --assume-yes
+sudo apt-get install git screen clang cmake make gcc g++ libmysqlclient-dev libssl-dev libbz2-dev libreadline-dev libncurses-dev libboost-all-dev p7zip --assume-yes
 update-alternatives --install /usr/bin/cc cc /usr/bin/clang 100
 update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang 100
 fi
@@ -191,11 +191,11 @@ echo "##########################################################"
 echo ""
 echo -e "\e[32m↓↓↓ For authserver - Run the following ↓↓↓\e[0m"
 echo ""
-echo "su - $SETUP_AUTH_USER -c 'cd /WOTLKTrinityInstaller/scripts/Setup/ && ./Auth-Install.sh'"
+echo "su - $SETUP_AUTH_USER -c 'cd /WOTLKTrinityInstaller/scripts/Setup/ && ./Auth-Install.sh all'"
 echo ""
 echo -e "\e[32m↓↓↓ For Dev Realm - Run the following ↓↓↓\e[0m"
 echo ""
-echo "su - $SETUP_REALM_USER -c 'cd /WOTLKTrinityInstaller/scripts/Setup/ && ./Realm-Dev-Install.sh'"
+echo "su - $SETUP_REALM_USER -c 'cd /WOTLKTrinityInstaller/scripts/Setup/ && ./Realm-Dev-Install.sh all'"
 echo ""
 fi
 fi
