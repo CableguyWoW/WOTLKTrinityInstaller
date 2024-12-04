@@ -37,43 +37,6 @@ echo ""
 
 else
 
-((NUM++))
-if [ "$1" = "all" ] || [ "$1" = "$NUM" ]; then
-echo ""
-echo "##########################################################"
-echo "## $NUM.Randomize Passwords"
-echo "##########################################################"
-echo ""
-replace_randomizepass() 
-{
-    local files="$1"         # File pattern to search for (e.g., *.txt)
-    local min_length="${2:-12}"     # Minimum length of the password; default is 12
-    local max_length="${3:-16}"     # Maximum length of the password; default is 16
-
-    # Loop through the files matching the pattern
-    for file in $files; do
-        if [[ -f "$file" ]]; then   # Check if it's a file
-            while IFS= read -r line; do
-                # Replace "RANDOMIZEPASS" with a new random password
-                echo "${line//RANDOMIZEPASS/$(generate_random_password $min_length $max_length)}"
-            done < "$file" > "$file.tmp"  # Write the output to a temp file
-            mv "$file.tmp" "$file"        # Overwrite the original file
-            echo "Processed: $file"
-        fi
-    done
-}
-
-generate_random_password() 
-{
-    local length=$((RANDOM % (max_length - min_length + 1) + min_length))
-    # Use /dev/urandom for generating a random password
-    tr -dc 'A-Za-z0-9' < /dev/urandom | head -c "$length"
-}
-
-# Call the function with arguments
-replace_randomizepass "/root/WOTLKTrinityInstaller/configs/*"  # Example: replace in all .txt files
-fi
-
 
 ((NUM++))
 if [ "$1" = "all" ] || [ "$1" = "$NUM" ]; then
@@ -167,8 +130,8 @@ echo "## $NUM.Setup Linux Users"
 echo "##########################################################"
 echo ""
 if [ $SETUP_DEV_WORLD == "true" ]; then
-	sudo useradd -m -p $SETUP_WORLD_PASS -s /bin/bash $SETUP_WORLD_USER
-    echo "Added $SETUP_WORLD_USER User account"
+	sudo useradd -m -p $SETUP_REALM_PASS -s /bin/bash $SETUP_REALM_USER
+    echo "Added $SETUP_REALM_PASS User account"
 fi
 if [ $SETUP_AUTH == "true" ]; then
 	sudo useradd -m -p $SETUP_AUTH_PASS -s /bin/bash $SETUP_AUTH_USER
@@ -230,7 +193,7 @@ echo "####  FOR AUTHSERVER INSTALL ####"
 echo "run 'cd /root/WOTLKTrinityInstaller/scripts/Setup/ && ./Auth-Install.sh' on the $SETUP_AUTH_USER user"
 echo ""
 echo "####  FOR DEV REALM INSTALL ####"
-echo "run 'cd /root/WOTLKTrinityInstaller/scripts/Setup/ && ./Realm-Dev-Install.sh' on the $SETUP_DEV_REALM_USER user"
+echo "run 'cd /root/WOTLKTrinityInstaller/scripts/Setup/ && ./Realm-Dev-Install.sh' on the $SETUP_REALM_USER user"
 echo ""
 fi
 fi
