@@ -90,7 +90,7 @@ mv authserver.conf.dist authserver.conf
 echo "Changing Config values"
 sed -i 's^LogsDir = ""^LogsDir = ""/home/'${SETUP_AUTH_USER}'/public/logs"^g' authserver.conf
 sed -i "s/Updates.EnableDatabases = 0/Updates.EnableDatabases = 1/g" authserver.conf
-sed -i "s/127.0.0.1;3306;trinity;trinity;auth/${AUTH_DB_HOST};${AUTH_DB_PORT};${AUTH_DB_USER};${AUTH_DB_PASS};${AUTH_WORLD_DB_DB}/g" worldserver.conf
+sed -i "s/127.0.0.1;3306;trinity;trinity;auth/${AUTH_DB_HOST};${AUTH_DB_PORT};${AUTH_DB_USER};${AUTH_DB_PASS};${AUTH_WORLD_DB_DB}/g" authserver.conf
 fi
 
 
@@ -121,7 +121,7 @@ echo ""
 mkdir /home/$SETUP_AUTH_USER/server/scripts/
 mkdir /home/$SETUP_AUTH_USER/server/scripts/Restarter/
 mkdir /home/$SETUP_AUTH_USER/server/scripts/Restarter/Auth/
-cp -r -u /home/$INSTALL_PATH/scripts/Restarter/Auth/. /home/$SETUP_AUTH_USER/server/scripts/Restarter/Auth/
+cp -r -u /WOTLKTrinityInstaller/scripts/Restarter/Auth/ /home/$SETUP_AUTH_USER/server/scripts/Restarter/Auth/
 ## FIX SCRIPTS PERMISSIONS
 chmod +x  /home/$SETUP_AUTH_USER/server/scripts/Restarter/Auth/start.sh
 sed -i "s/realmname/$SETUP_AUTH_USER/g" /home/$SETUP_AUTH_USER/server/scripts/Restarter/Auth/start.sh
