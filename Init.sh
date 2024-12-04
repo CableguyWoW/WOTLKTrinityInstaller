@@ -27,6 +27,7 @@ echo ""
 ((NUM++)); echo "- [$NUM] : Update Script permissions"
 ((NUM++)); echo "- [$NUM] : Install Mysql Apt"
 ((NUM++)); echo "- [$NUM] : Randomize Passwords"
+((NUM++)); echo "- [$NUM] : Final Command Message"
 echo ""
 
 else
@@ -131,9 +132,7 @@ if [ "$RANDOMIZE_PASSWORDS" = "true" ]; then
     replace_randomizepass "/root/WOTLKTrinityInstaller/configs/*"  # Example: replace in all .txt files
 else
     echo ""
-    echo ""
     echo "Password randomiztion disabled, the default password is password123"
-    echo ""
     echo ""
     if [ "$REMOTE_DB_SETUP" = "true" ]; then
         echo "Its highly recommended to change the remote MYSQL user password as it will be public."
@@ -149,12 +148,26 @@ else
 fi
 fi
 
+
+((NUM++))
+if [ "$1" = "all" ] || [ "$1" = "$NUM" ]; then
+echo ""
 echo "##########################################################"
-echo "INIT FINISHED"
 echo ""
 echo "All passwords are stored in - /root/WOTLKTrinityInstaller/configs/"
 echo ""
 echo "Next - Run the following : cd /root/WOTLKTrinityInstaller/scripts/Setup/ && ./Root-Install.sh all"
+echo ""
 echo "##########################################################"
+echo ""
+fi
+
+echo ""
+echo "##########################################################"
+echo ""
+echo "INIT FINISHED"
+echo ""
+echo "##########################################################"
+echo ""
 
 fi
