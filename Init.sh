@@ -27,7 +27,7 @@ echo ""
 ((NUM++)); echo "- [$NUM] : Update Script permissions"
 ((NUM++)); echo "- [$NUM] : Install Mysql Apt"
 ((NUM++)); echo "- [$NUM] : Randomize Passwords"
-((NUM++)); echo "- [$NUM] : Final Command Message"
+((NUM++)); echo "- [$NUM] : Setup Commands"
 echo ""
 
 else
@@ -113,7 +113,7 @@ replace_randomizepass()
         if [[ -f "$file" ]]; then   # Check if it's a file
             while IFS= read -r line; do
                 # Replace "RANDOMIZEPASS" with a new random password
-                echo "${line//RANDOMIZEPASS/$(generate_random_password $min_length $max_length)}"
+                echo "${line//password123/$(generate_random_password $min_length $max_length)}"
             done < "$file" > "$file.tmp"  # Write the output to a temp file
             mv "$file.tmp" "$file"        # Overwrite the original file
             echo "Processed: $file"
@@ -142,7 +142,10 @@ else
         if [[ "$yn" =~ ^[Yy]$ ]]; then
             read -sp "Enter the new password: " NEW_PASSWORD
             echo ""  # New line after password input
-            [[ -f "/root/WOTLKTrinityInstaller/configs/root-config" ]] && sed -i "s/REMOTE_DB_PASS=\".*\"/REMOTE_DB_PASS=\"$NEW_PASSWORD\"/" "$CONFIG_FILE" && echo "Password updated successfully in $CONFIG_FILE." || echo "Error: Configuration file does not exist."
+            CONFIG_FILE="/root/WOTLKTrinityInstaller/configs/root-config"  # Define the config file path
+            if [[ -f "$CONFIG_FILE" ]]; then
+                sed -i "s|REMOTE_DB_PASS="password123"|REMOTE_DB_PASS=\"$NEW_PASSWORD\"|" "$CONFIG_FILE" && echo "Password updated successfully in $CONFIG_FILE."
+            fi
         fi
     fi
 fi
@@ -152,6 +155,8 @@ fi
 ((NUM++))
 if [ "$1" = "all" ] || [ "$1" = "$NUM" ]; then
 echo ""
+echo "##########################################################"
+echo "## $NUM.Setup Commands"
 echo "##########################################################"
 echo ""
 echo "All passwords are stored in - /root/WOTLKTrinityInstaller/configs/"
@@ -164,9 +169,7 @@ fi
 
 echo ""
 echo "##########################################################"
-echo ""
 echo "INIT FINISHED"
-echo ""
 echo "##########################################################"
 echo ""
 
