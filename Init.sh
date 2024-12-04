@@ -131,7 +131,6 @@ generate_random_password()
 if [ "$RANDOMIZE_PASSWORDS" = "true" ]; then
     replace_randomizepass "/root/WOTLKTrinityInstaller/configs/*"  # Example: replace in all .txt files
 else
-    echo ""
     echo "Password randomiztion disabled, the default password is password123"
     echo ""
     if [ "$REMOTE_DB_SETUP" = "true" ]; then
@@ -144,7 +143,8 @@ else
             echo ""  # New line after password input
             CONFIG_FILE="/root/WOTLKTrinityInstaller/configs/root-config"  # Define the config file path
             if [[ -f "$CONFIG_FILE" ]]; then
-                sed -i "s|REMOTE_DB_PASS="password123"|REMOTE_DB_PASS=\"$NEW_PASSWORD\"|" "$CONFIG_FILE" && echo "Password updated successfully in $CONFIG_FILE."
+                sed -i 's|REMOTE_DB_PASS=\"password123\"|REMOTE_DB_PASS=\"$NEW_PASSWORD\"|' '$CONFIG_FILE' && echo "Password updated successfully in $CONFIG_FILE."
+                remote_db_update="true"
             fi
         fi
     fi
@@ -160,6 +160,12 @@ echo "## $NUM.Setup Commands"
 echo "##########################################################"
 echo ""
 echo "All passwords are stored in - /root/WOTLKTrinityInstaller/configs/"
+if [ "$RANDOMIZE_PASSWORDS" = "true" ]; then
+    echo "The default passwords setup is : password123"
+fi
+if [ "$remote_db_update" = "true" ]; then
+    echo "The REMOTE_DB_PASS has been updated to the users inputted password."
+fi
 echo ""
 echo "Next - Run the following : cd /root/WOTLKTrinityInstaller/scripts/Setup/ && ./Root-Install.sh all"
 echo ""
