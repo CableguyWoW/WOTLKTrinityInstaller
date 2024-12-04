@@ -159,8 +159,8 @@ if [ "$remote_db_update" = "true" ]; then
     echo "The REMOTE_DB_PASS has been updated to the users inputted password."
 fi
 echo ""
-echo -e "\e[32mNext - Run the following:\e[0m"
-echo "↓"
+echo -e "\e[32m↓↓↓ Next - Run the following ↓↓↓\e[0m"
+echo ""
 echo "cd /WOTLKTrinityInstaller/scripts/Setup/ && ./Root-Install.sh all"
 echo ""
 echo "##########################################################"
