@@ -138,15 +138,27 @@ else
         echo "YOU HAVE BEEN WARNED!"
         echo ""
         read -p "Do you want to change the password? (y/n): " yn
-        if [[ "$yn" =~ ^[Yy]$ ]]; then
-            read -sp "Enter the new password: " NEW_PASSWORD
-            echo ""  # New line after password input
-            CONFIG_FILE="/root/WOTLKTrinityInstaller/configs/root-config"  # Define the config file path
-            if [[ -f "$CONFIG_FILE" ]]; then
-                sed -i 's|REMOTE_DB_PASS=\"password123\"|REMOTE_DB_PASS=\"$NEW_PASSWORD\"|' '$CONFIG_FILE' && echo "Password updated successfully in $CONFIG_FILE."
-                remote_db_update="true"
+        while true; do
+            read -p "Do you want to change the password? (y/n): " yn
+            if [[ "$yn" =~ ^[Yy]$ ]]; then
+                read -sp "Enter the new password: " NEW_PASSWORD
+                echo ""  # New line after password input
+                CONFIG_FILE="/root/WOTLKTrinityInstaller/configs/root-config"  # Define the config file path
+                
+                if [[ -f "$CONFIG_FILE" ]]; then
+                    sed -i "s|REMOTE_DB_PASS=\"password123\"|REMOTE_DB_PASS=\"$NEW_PASSWORD\"|" "$CONFIG_FILE" && echo "Password updated successfully in $CONFIG_FILE."
+                    remote_db_update="true"
+                else
+                    echo "Error: Configuration file does not exist."
+                fi
+                break  # Exit the loop after successful update
+            elif [[ "$yn" =~ ^[Nn]$ ]]; then
+                echo "Operation cancelled."
+                break  # Exit the loop if the operation is cancelled
+            else
+                echo "Invalid input. Please enter 'y' for yes or 'n' for no."
             fi
-        fi
+        done
     fi
 fi
 fi
