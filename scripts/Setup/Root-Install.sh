@@ -88,18 +88,18 @@ fi
 if [ "$1" = "all" ] || [ "$1" = "$NUM" ]; then
 echo ""
 echo "##########################################################"
-echo "## $NUM.Setting up MySQL Users"
+echo "## $NUM. Setting up MySQL Users"
 echo "##########################################################"
 echo ""
-mysql -u $ROOT_USER -p$ROOT_PASS -D mysql -e "ALTER USER '$ROOT_USER'@'localhost' IDENTIFIED BY '$ROOT_PASS';"
+# Update MySQL root user password
+mysql -u "$ROOT_USER" -p"$ROOT_PASS" -D mysql -e "ALTER USER '$ROOT_USER'@'localhost' IDENTIFIED BY '$ROOT_PASS';"
 ## Remote DB User Setup
-if [ $REMOTE_DB_SETUP == "true" ]; then
-	mysql -u $ROOT_USER -p$ROOT_PASS -e "GRANT USAGE ON *.* TO '$REMOTE_DB_USER'@'$REMOTE_DB_HOST' IDENTIFIED BY '$REMOTE_DB_PASS' WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0;"
-	mysql -u $ROOT_USER -p$ROOT_PASS -e "GRANT ALL PRIVILEGES ON *.* TO '$REMOTE_DB_USER'@'$REMOTE_DB_HOST' WITH GRANT OPTION;"
+if [ "$REMOTE_DB_SETUP" == "true" ]; then
+    mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "GRANT USAGE ON *.* TO '$REMOTE_DB_USER'@'$REMOTE_DB_HOST' IDENTIFIED BY '$REMOTE_DB_PASS' WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0;"
+    mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "GRANT ALL PRIVILEGES ON *.* TO '$REMOTE_DB_USER'@'$REMOTE_DB_HOST' WITH GRANT OPTION;"
 fi
-mysql -u $ROOT_USER -p$ROOT_PASS -e "FLUSH PRIVILEGES;"
+mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "FLUSH PRIVILEGES;"
 fi
-
 
 ((NUM++))
 if [ "$1" = "all" ] || [ "$1" = "$NUM" ]; then
