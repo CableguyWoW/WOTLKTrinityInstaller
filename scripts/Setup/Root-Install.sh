@@ -194,6 +194,7 @@ echo ""
 echo "su - $SETUP_AUTH_USER -c 'cd /WOTLKTrinityInstaller/scripts/Setup/ && ./Auth-Install.sh'"
 echo ""
 echo -e "\e[32m↓↓↓ For Dev Realm - Run the following ↓↓↓\e[0m"
+echo ""
 echo "su - $SETUP_REALM_USER -c 'cd /WOTLKTrinityInstaller/scripts/Setup/ && ./Realm-Dev-Install.sh'"
 echo ""
 fi
