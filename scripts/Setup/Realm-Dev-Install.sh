@@ -36,7 +36,6 @@ echo "- [stoprealm] : Stops all screen sessions on the user"
 echo ""
 ((NUM++)); echo "- [$NUM] : Close Worldserver" 
 ((NUM++)); echo "- [$NUM] : Pull and Setup Source"
-((NUM++)); echo "- [$NUM] : Pull Data and Setup Logs"
 ((NUM++)); echo "- [$NUM] : Setup Worldserver Config"
 ((NUM++)); echo "- [$NUM] : Setup MySQL Users"
 ((NUM++)); echo "- [$NUM] : Pull and Setup Database"
@@ -76,28 +75,18 @@ echo "## $NUM.Pulling Source"
 echo "##########################################################"
 echo ""
 cd /home/$SETUP_REALM_USER/
-git clone --single-branch --branch $CORE_BRANCH "https://$CORE_REPO_URL" TrinityCore
-## Build source
-echo "Building Source"
-cd TrinityCore
-mkdir build
-cd build
-mkdir /home/$SETUP_REALM_USER/server/
-cmake ../ -DCMAKE_INSTALL_PREFIX=/home/$SETUP_REALM_USER/server -DSCRIPTS_EASTERNKINGDOMS="disabled" -DSCRIPTS_EVENTS="disabled" -DSCRIPTS_KALIMDOR="disabled" -DSCRIPTS_NORTHREND="disabled" -DSCRIPTS_OUTDOORPVP="disabled" -DSCRIPTS_OUTLAND="disabled" -DWITH_DYNAMIC_LINKING=ON -DSCRIPTS="dynamic" -DSCRIPTS_CUSTOM="dynamic" -DUSE_COREPCH=1 -DUSE_SCRIPTPCH=1 -DSERVERS=1 -DTOOLS=1 -DCMAKE_BUILD_TYPE=RelWithDebInfo -DWITH_COREDEBUG=0 -DWITH_WARNINGS=0 && make -j $(( $(nproc) - 1 )) && make install
-fi
-
-
-((NUM++))
-if [ "$1" = "all" ] || [ "$1" = "$NUM" ]; then
-echo ""
-echo "##########################################################"
-echo "## $NUM.Setup Data and Logs"
-echo "##########################################################"
-echo ""
 mkdir /home/$SETUP_REALM_USER/server/
 mkdir /home/$SETUP_REALM_USER/server/logs/
 mkdir /home/$SETUP_REALM_USER/server/logs/crashes/
 mkdir /home/$SETUP_REALM_USER/server/data/
+## Source install
+git clone --single-branch --branch $CORE_BRANCH "https://$CORE_REPO_URL" TrinityCore
+## Build source
+echo "Building Source"
+cd /home/$SETUP_REALM_USER/TrinityCore/
+mkdir /home/$SETUP_REALM_USER/TrinityCore/build
+cd /home/$SETUP_REALM_USER/TrinityCore/build
+cmake /home/$SETUP_REALM_USER/TrinityCore/ -DCMAKE_INSTALL_PREFIX=/home/$SETUP_REALM_USER/server -DSCRIPTS_EASTERNKINGDOMS="disabled" -DSCRIPTS_EVENTS="disabled" -DSCRIPTS_KALIMDOR="disabled" -DSCRIPTS_NORTHREND="disabled" -DSCRIPTS_OUTDOORPVP="disabled" -DSCRIPTS_OUTLAND="disabled" -DWITH_DYNAMIC_LINKING=ON -DSCRIPTS="dynamic" -DSCRIPTS_CUSTOM="dynamic" -DUSE_COREPCH=1 -DUSE_SCRIPTPCH=1 -DSERVERS=1 -DTOOLS=1 -DCMAKE_BUILD_TYPE=RelWithDebInfo -DWITH_COREDEBUG=0 -DWITH_WARNINGS=0 && make -j $(( $(nproc) - 1 )) && make install
 fi
 
 

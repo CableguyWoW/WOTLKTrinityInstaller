@@ -72,8 +72,9 @@ git clone --single-branch --branch $AUTH_BRANCH "$CORE_REPO_URL" TrinityCore
 ## Build source
 echo "Building source...."
 cd /home/$SETUP_AUTH_USER/TrinityCore/
-mkdir build && cd build
-cmake ../ -DCMAKE_INSTALL_PREFIX=/home/$SETUP_AUTH_USER/server -DSCRIPTS="none" -DUSE_COREPCH=1 -DUSE_SCRIPTPCH=1 -DSERVERS=1 -DTOOLS=0 -DCMAKE_BUILD_TYPE=RelWithDebInfo -DWITH_COREDEBUG=0 -DWITH_WARNINGS=0 && make -j $(( $(nproc) - 1 )) && make install
+mkdir /home/$SETUP_AUTH_USER/TrinityCore/build
+cd /home/$SETUP_AUTH_USER/TrinityCore/build
+cmake /home/$SETUP_AUTH_USER/TrinityCore/ -DCMAKE_INSTALL_PREFIX=/home/$SETUP_AUTH_USER/server -DSCRIPTS="none" -DUSE_COREPCH=1 -DUSE_SCRIPTPCH=1 -DSERVERS=1 -DTOOLS=0 -DCMAKE_BUILD_TYPE=RelWithDebInfo -DWITH_COREDEBUG=0 -DWITH_WARNINGS=0 && make -j $(( $(nproc) - 1 )) && make install
 fi
 
 
