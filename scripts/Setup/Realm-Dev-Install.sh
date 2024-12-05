@@ -37,7 +37,6 @@ echo ""
 ((NUM++)); echo "- [$NUM] : Close Worldserver" 
 ((NUM++)); echo "- [$NUM] : Pull and Setup Source"
 ((NUM++)); echo "- [$NUM] : Setup Worldserver Config"
-((NUM++)); echo "- [$NUM] : Setup MySQL Users"
 ((NUM++)); echo "- [$NUM] : Pull and Setup Database"
 ((NUM++)); echo "- [$NUM] : Download 3.3.5a Client"
 ((NUM++)); echo "- [$NUM] : Setup Client Tools"
@@ -120,21 +119,6 @@ sed -i "s/127.0.0.1;3306;trinity;trinity;world/${REALM_DB_HOST};${REALM_DB_PORT}
 sed -i "s/127.0.0.1;3306;trinity;trinity;characters/${REALM_DB_HOST};${REALM_DB_PORT};${REALM_DB_USER};${REALM_DB_PASS};${REALM_DB_USER}_character/g" worldserver.conf
 fi
 
-((NUM++))
-if [ "$1" = "all" ] || [ "$1" = "$NUM" ]; then
-echo ""
-echo "##########################################################"
-echo "## $NUM.Setup MySQL Users"
-echo "##########################################################"
-echo ""
-mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "CREATE DATABASE ${REALM_DB_USER}_world DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;"
-mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "CREATE DATABASE ${REALM_DB_USER}_character DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;"
-mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "GRANT USAGE ON ${REALM_DB_USER}_world.* TO '${REALM_DB_USER}'@'localhost' IDENTIFIED BY '$REALM_DB_PASS' WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0;"
-mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "GRANT USAGE ON ${REALM_DB_USER}_character.* TO '${REALM_DB_USER}'@'localhost' IDENTIFIED BY '$REALM_DB_PASS' WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0;"
-mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "GRANT ALL PRIVILEGES ON ${REALM_DB_USER}_world.* TO '${REALM_DB_USER}'@'localhost' WITH GRANT OPTION;"
-mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "GRANT ALL PRIVILEGES ON ${REALM_DB_USER}_character.* TO '${REALM_DB_USER}'@'localhost' WITH GRANT OPTION;"
-mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "FLUSH PRIVILEGES;"
-fi
 
 ((NUM++))
 if [ "$1" = "all" ] || [ "$1" = "update" ] || [ "$1" = "$NUM" ]; then

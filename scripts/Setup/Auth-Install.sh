@@ -33,7 +33,6 @@ echo ""
 ((NUM++)); echo "- [$NUM] : Close Authserver"
 ((NUM++)); echo "- [$NUM] : Pull and Setup Source"
 ((NUM++)); echo "- [$NUM] : Setup Authserver Config"
-((NUM++)); echo "- [$NUM] : Setup MySQL Users and DB"
 ((NUM++)); echo "- [$NUM] : Setup Restarter"
 ((NUM++)); echo "- [$NUM] : Setup Backup Folder"
 ((NUM++)); echo "- [$NUM] : Setup Crontab"
@@ -95,20 +94,6 @@ echo "Changing Config values"
 sed -i 's^LogsDir = ""^LogsDir = ""/home/'${SETUP_AUTH_USER}'/public/logs"^g' authserver.conf
 sed -i "s/Updates.EnableDatabases = 0/Updates.EnableDatabases = 1/g" authserver.conf
 sed -i "s/127.0.0.1;3306;trinity;trinity;auth/${AUTH_DB_HOST};${AUTH_DB_PORT};${AUTH_DB_USER};${AUTH_DB_PASS};${AUTH_WORLD_DB_DB}/g" authserver.conf
-fi
-
-
-((NUM++))
-if [ "$1" = "all" ] || [ "$1" = "$NUM" ]; then
-echo ""
-echo "##########################################################"
-echo "## $NUM.Setup MySQL"
-echo "##########################################################"
-echo ""
-mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "CREATE DATABASE auth DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;"
-mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "GRANT USAGE ON auth.* TO '$AUTH_DB_USER'@'localhost' IDENTIFIED BY '$AUTH_DB_PASS' WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0;"
-mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "GRANT ALL PRIVILEGES ON auth.* TO '$AUTH_DB_USER'@'localhost' WITH GRANT OPTION;"
-mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "FLUSH PRIVILEGES;"
 fi
 
 
