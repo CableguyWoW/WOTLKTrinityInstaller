@@ -135,8 +135,10 @@ echo "##########################################################"
 echo "## $NUM.Setup Crontab"
 echo "##########################################################"
 echo ""
+crontab -r
 crontab -l | { cat; echo "############## START AUTHSERVER ##############"; } | crontab -
 crontab -l | { cat; echo "@reboot /home/$SETUP_AUTH_USER/server/scripts/Restarter/Auth/start.sh"; } | crontab -
+echo "Auth Crontab setup"
 fi
 
 

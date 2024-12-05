@@ -293,6 +293,7 @@ echo "##########################################################"
 echo "## $NUM.Setup Crontab"
 echo "##########################################################"
 echo ""
+crontab -r
 if [ $SETUP_TYPE == "GDB" ]; then
 	echo "Setup Restarter in GDB mode...."
 	crontab -l | { cat; echo "############## START WORLD ##############"; } | crontab -
@@ -312,6 +313,7 @@ fi
 ## SETUP CRONTAB BACKUPS
 crontab -l | { cat; echo "############## MISC SCRIPTS ##############"; } | crontab -
 crontab -l | { cat; echo "* */1* * * * /home/$SETUP_REALM_USER/server/scripts/Clean-Logs.sh"; } | crontab -
+echo "$SETUP_REALM_USER Realm Crontab setup"
 fi
 
 
