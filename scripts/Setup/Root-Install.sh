@@ -143,12 +143,18 @@ echo "##########################################################"
 echo ""
 if [ $SETUP_DEV_WORLD == "true" ]; then
 	sudo useradd -m -p $SETUP_REALM_PASS -s /bin/bash $SETUP_REALM_USER
-    echo "$SETUP_REALM_USER ALL=(ALL:ALL) ALL" | sudo tee /etc/sudoers.d/$SETUP_REALM_USER
+    if ! sudo grep -q "$SETUP_REALM_USER ALL=(ALL) NOPASSWD: ALL" "$SUDOERS_FILE"; then
+        echo "$SETUP_REALM_USER ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/$SETUP_AUTH_USER
+        echo "Added $SETUP_REALM_USER to sudoers with NOPASSWD."
+    fi
     echo "Added $SETUP_REALM_PASS User account"
 fi
 if [ $SETUP_AUTH == "true" ]; then
 	sudo useradd -m -p $SETUP_AUTH_PASS -s /bin/bash $SETUP_AUTH_USER
-    echo "$SETUP_AUTH_USER ALL=(ALL:ALL) ALL" | sudo tee /etc/sudoers.d/$SETUP_AUTH_USER
+    if ! sudo grep -q "$SETUP_AUTH_USER ALL=(ALL) NOPASSWD: ALL" "$SUDOERS_FILE"; then
+        echo "$SETUP_AUTH_USER ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/$SETUP_AUTH_USER
+        echo "Added $SETUP_AUTH_USER to sudoers with NOPASSWD."
+    fi
     echo "Added $SETUP_AUTH_USER User account"
 fi
 fi
