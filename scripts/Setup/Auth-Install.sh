@@ -107,9 +107,9 @@ echo ""
 mkdir /home/$SETUP_AUTH_USER/server/scripts/
 mkdir /home/$SETUP_AUTH_USER/server/scripts/Restarter/
 mkdir /home/$SETUP_AUTH_USER/server/scripts/Restarter/Auth/
-cp -r -u /WOTLKTrinityInstaller/scripts/Restarter/Auth/ /home/$SETUP_AUTH_USER/server/scripts/Restarter/Auth/
+sudo cp -r -u /WOTLKTrinityInstaller/scripts/Restarter/Auth/ /home/$SETUP_AUTH_USER/server/scripts/Restarter/Auth/
 ## FIX SCRIPTS PERMISSIONS
-chmod +x  /home/$SETUP_AUTH_USER/server/scripts/Restarter/Auth/start.sh
+sudo chmod +x /home/$SETUP_AUTH_USER/server/scripts/Restarter/Auth/start.sh
 sed -i "s/realmname/$SETUP_AUTH_USER/g" /home/$SETUP_AUTH_USER/server/scripts/Restarter/Auth/start.sh
 fi
 

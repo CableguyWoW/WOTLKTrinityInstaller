@@ -234,13 +234,13 @@ echo ""
 mkdir /home/$SETUP_REALM_USER/server/scripts/
 mkdir /home/$SETUP_REALM_USER/server/scripts/Restarter/
 mkdir /home/$SETUP_REALM_USER/server/scripts/Restarter/World/
-cp -r -u /home/$INSTALL_PATH/scripts/Restarter/World/. /home/$SETUP_REALM_USER/server/scripts/Restarter/World/
+sudo cp -r -u /WOTLKTrinityInstaller/scripts/Restarter/World/ /home/$SETUP_AUTH_USER/server/scripts/Restarter/World/
 ## FIX SCRIPTS PERMISSIONS
-chmod +x  /home/$SETUP_REALM_USER/server/scripts/Restarter/World/GDB/start_gdb.sh
-chmod +x  /home/$SETUP_REALM_USER/server/scripts/Restarter/World/GDB/restarter_world_gdb.sh
-chmod +x  /home/$SETUP_REALM_USER/server/scripts/Restarter/World/GDB/gdbcommands
-chmod +x  /home/$SETUP_REALM_USER/server/scripts/Restarter/World/Normal/start.sh
-chmod +x  /home/$SETUP_REALM_USER/server/scripts/Restarter/World/Normal/restarter_world.sh
+sudo chmod +x /home/$SETUP_REALM_USER/server/scripts/Restarter/World/GDB/start_gdb.sh
+sudo chmod +x /home/$SETUP_REALM_USER/server/scripts/Restarter/World/GDB/restarter_world_gdb.sh
+sudo chmod +x /home/$SETUP_REALM_USER/server/scripts/Restarter/World/GDB/gdbcommands
+sudo chmod +x /home/$SETUP_REALM_USER/server/scripts/Restarter/World/Normal/start.sh
+sudo chmod +x /home/$SETUP_REALM_USER/server/scripts/Restarter/World/Normal/restarter_world.sh
 sed -i "s/realmname/$SETUP_REALM_USER/g" /home/$SETUP_REALM_USER/server/scripts/Restarter/World/GDB/start_gdb.sh
 sed -i "s/realmname/$SETUP_REALM_USER/g" /home/$SETUP_REALM_USER/server/scripts/Restarter/World/Normal/start.sh
 fi
