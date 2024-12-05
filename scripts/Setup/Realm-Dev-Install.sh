@@ -234,7 +234,7 @@ echo ""
 mkdir /home/$SETUP_REALM_USER/server/scripts/
 mkdir /home/$SETUP_REALM_USER/server/scripts/Restarter/
 mkdir /home/$SETUP_REALM_USER/server/scripts/Restarter/World/
-sudo cp -r -u /WOTLKTrinityInstaller/scripts/Restarter/World/ /home/$SETUP_AUTH_USER/server/scripts/Restarter/World/
+sudo cp -r -u /WOTLKTrinityInstaller/scripts/Restarter/World/* /home/$SETUP_AUTH_USER/server/scripts/Restarter/World/
 ## FIX SCRIPTS PERMISSIONS
 sudo chmod +x /home/$SETUP_REALM_USER/server/scripts/Restarter/World/GDB/start_gdb.sh
 sudo chmod +x /home/$SETUP_REALM_USER/server/scripts/Restarter/World/GDB/restarter_world_gdb.sh
