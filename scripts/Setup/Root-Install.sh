@@ -143,7 +143,7 @@ echo "##########################################################"
 echo ""
 if [ $SETUP_DEV_WORLD == "true" ]; then
 	sudo useradd -m -p $SETUP_REALM_PASS -s /bin/bash $SETUP_REALM_USER
-    if ! sudo grep -q "$SETUP_REALM_USER ALL=(ALL) NOPASSWD: ALL" "$SUDOERS_FILE"; then
+    if ! sudo grep -q "$SETUP_REALM_USER ALL=(ALL) NOPASSWD: ALL" "/etc/sudoers.d/$SETUP_AUTH_USER"; then
         echo "$SETUP_REALM_USER ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/$SETUP_AUTH_USER
         echo "Added $SETUP_REALM_USER to sudoers with NOPASSWD."
     fi
@@ -151,7 +151,7 @@ if [ $SETUP_DEV_WORLD == "true" ]; then
 fi
 if [ $SETUP_AUTH == "true" ]; then
 	sudo useradd -m -p $SETUP_AUTH_PASS -s /bin/bash $SETUP_AUTH_USER
-    if ! sudo grep -q "$SETUP_AUTH_USER ALL=(ALL) NOPASSWD: ALL" "$SUDOERS_FILE"; then
+    if ! sudo grep -q "$SETUP_AUTH_USER ALL=(ALL) NOPASSWD: ALL" "/etc/sudoers.d/$SETUP_AUTH_USER"; then
         echo "$SETUP_AUTH_USER ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/$SETUP_AUTH_USER
         echo "Added $SETUP_AUTH_USER to sudoers with NOPASSWD."
     fi
