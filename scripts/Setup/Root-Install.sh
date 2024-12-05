@@ -111,8 +111,9 @@ echo ""
 sudo apt-get install ufw --assume-yes
 # SSH port
 sudo ufw allow 22
-# MySQL
+if [ "$REMOTE_DB_SETUP" = "true" ]; then
 sudo ufw allow 3306
+fi
 if [ $SETUP_DEV_WORLD == "true" ]; then
     sudo ufw allow $SETUP_REALM_PORT
 fi

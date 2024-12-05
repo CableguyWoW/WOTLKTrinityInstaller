@@ -104,13 +104,10 @@ echo "##########################################################"
 echo "## $NUM.Setup MySQL"
 echo "##########################################################"
 echo ""
-mysql --port="$AUTH_DB_PORT" -u "$ROOT_USER" -p"$ROOT_PASS" -e "CREATE DATABASE auth DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;"
-mysql --port="$AUTH_DB_PORT" -u "$ROOT_USER" -p"$ROOT_PASS" -e "CREATE DATABASE auth_custom DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;"
-mysql --port="$AUTH_DB_PORT" -u "$ROOT_USER" -p"$ROOT_PASS" -e "GRANT USAGE ON auth.* TO '$AUTH_DB_USER'@'localhost' IDENTIFIED BY '$AUTH_DB_PASS' WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0;"
-mysql --port="$AUTH_DB_PORT" -u "$ROOT_USER" -p"$ROOT_PASS" -e "GRANT USAGE ON auth_custom.* TO '$AUTH_DB_USER'@'localhost' IDENTIFIED BY '$AUTH_DB_PASS' WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0;"
-mysql --port="$AUTH_DB_PORT" -u "$ROOT_USER" -p"$ROOT_PASS" -e "GRANT ALL PRIVILEGES ON auth.* TO '$AUTH_DB_USER'@'localhost' WITH GRANT OPTION;"
-mysql --port="$AUTH_DB_PORT" -u "$ROOT_USER" -p"$ROOT_PASS" -e "GRANT ALL PRIVILEGES ON auth_custom.* TO '$AUTH_DB_USER'@'localhost' WITH GRANT OPTION;"
-mysql --port="$AUTH_DB_PORT" -u "$ROOT_USER" -p"$ROOT_PASS" -e "FLUSH PRIVILEGES;"
+mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "CREATE DATABASE auth DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;"
+mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "GRANT USAGE ON auth.* TO '$AUTH_DB_USER'@'localhost' IDENTIFIED BY '$AUTH_DB_PASS' WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0;"
+mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "GRANT ALL PRIVILEGES ON auth.* TO '$AUTH_DB_USER'@'localhost' WITH GRANT OPTION;"
+mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "FLUSH PRIVILEGES;"
 fi
 
 
