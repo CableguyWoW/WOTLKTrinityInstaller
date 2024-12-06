@@ -198,7 +198,19 @@ else
 	sudo unzip "$FILENAME"
 fi
 if [ -d "/home/ChromieCraft_3.3.5a" ]; then
-	mv -f /home/ChromieCraft_3.3.5a /home/WoW335
+	sudo mv -f /home/ChromieCraft_3.3.5a /home/WoW335
+fi
+if [ -f "/home/$FILENAME" ]; then
+    while true; do
+        read -p "Would you like to delete the 3.3.5a client zip folder to save folder space? (y/n): " folder_choice
+        if [[ "$folder_choice" =~ ^[Yy]$ ]]; then
+            sudo rm $FILENAME && break
+        elif [[ "$folder_choice" =~ ^[Nn]$ ]]; then
+            echo "Skipping deletion." && break
+        else
+            echo "Please answer y (yes) or n (no)."
+        fi
+    done
 fi
 fi
 
