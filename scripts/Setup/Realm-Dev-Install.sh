@@ -79,7 +79,7 @@ mkdir /home/$SETUP_REALM_USER/server/logs/
 mkdir /home/$SETUP_REALM_USER/server/logs/crashes/
 mkdir /home/$SETUP_REALM_USER/server/data/
 ## Source install
-git clone --single-branch --branch $CORE_BRANCH "https://$CORE_REPO_URL" TrinityCore
+git clone --single-branch --branch $CORE_BRANCH "$CORE_REPO_URL" TrinityCore
 ## Build source
 echo "Building Source"
 cd /home/$SETUP_REALM_USER/TrinityCore/
@@ -108,7 +108,6 @@ sed -i 's/mmap.enablePathFinding = 0/mmap.enablePathFinding = 1/g' worldserver.c
 ## Folders
 sed -i 's^LogsDir = ""^LogsDir = "/home/'${SETUP_REALM_USER}'/public/data"^g' worldserver.conf
 sed -i 's^DataDir = "."^DataDir = "/home/'${SETUP_REALM_USER}'/public/logs"^g' worldserver.conf
-DataDir = "."
 sed -i 's^BuildDirectory  = ""^BuildDirectory  = "/home/'${SETUP_REALM_USER}'/TrinityCore/build"^g' worldserver.conf
 sed -i 's^SourceDirectory  = ""^SourceDirectory  = "/home/'${SETUP_REALM_USER}'/TrinityCore/"^g' worldserver.conf
 ## LoginDatabaseInfo
