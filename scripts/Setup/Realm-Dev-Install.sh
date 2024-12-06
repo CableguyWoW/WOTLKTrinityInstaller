@@ -294,17 +294,20 @@ echo "##########################################################"
 echo "## $NUM.Run Mmaps Extractor"
 echo "##########################################################"
 echo ""
+cd /home/WoW335/
 if [ -d "/home/WoW335/mmaps" ]; then
     while true; do
         read -p "mmaps Folder already exists. Reextract? (y/n): " folder_choice
         if [[ "$folder_choice" =~ ^[Yy]$ ]]; then
-            cd /home/WoW335/ && ./mmaps_generator && break
+            ./mmaps_generator && break
         elif [[ "$folder_choice" =~ ^[Nn]$ ]]; then
             echo "Skipping extraction." && break
         else
             echo "Please answer y (yes) or n (no)."
         fi
     done
+else
+	./mmaps_generator
 fi
 echo "Copying mmaps folder"
 cp -r /home/WoW335/mmaps /home/$SETUP_REALM_USER/server/data/
