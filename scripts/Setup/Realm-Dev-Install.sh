@@ -134,6 +134,7 @@ if [ -f "$TARGET_DIR$SQLNAME" ]; then
     while true; do
         read -p "$SQLNAME already exists. Redownload? (y/n): " file_choice
         if [[ "$file_choice" =~ ^[Yy]$ ]]; then
+			rm "$FILENAME"
             wget $DB_REPO_URL
             break
         elif [[ "$file_choice" =~ ^[Nn]$ ]]; then
