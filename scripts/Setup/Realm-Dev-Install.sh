@@ -154,8 +154,6 @@ fi
 if [ -f "$FILENAME" ]; then
 	7z e "$FILENAME"
 	rm "$FILENAME"
-else
-	echo "Error: $FILENAME not found after download."
 fi
 fi
 
