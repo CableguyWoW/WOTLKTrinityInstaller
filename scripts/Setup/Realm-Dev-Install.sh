@@ -148,8 +148,8 @@ echo "## $NUM.Download 3.3.5a Client"
 echo "##########################################################"
 echo ""
 cd /home/$SETUP_REALM_USER/
-wget $335_CLIENT_URL
-URL=$335_CLIENT_URL
+URL="https://btground.tk/chmi/ChromieCraft_3.3.5a.zip"
+wget $URL
 FILENAME="${URL##*/}"
 unzip "$FILENAME"
 mv /home/$SETUP_REALM_USER/ChromieCraft_3.3.5a /home/$SETUP_REALM_USER/WoW335
