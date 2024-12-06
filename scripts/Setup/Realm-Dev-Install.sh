@@ -126,17 +126,16 @@ echo "##########################################################"
 echo "## $NUM.Downloading TDB"
 echo "##########################################################"
 echo ""
-# Define variables
-FILENAME="${DB_REPO_URL##*/}" # Get the filename from the URL
-SQLNAME="${FILENAME%.7z}.sql" # Replace .7z with .sql
+FILENAME="${DB_REPO_URL##*/}"           # Get the filename from the URL
+SQLNAME="${FILENAME%.7z}.sql"            # Replace .7z with .sql
 TARGET_DIR="/home/$SETUP_REALM_USER/server/bin" # Change this to your target directory
 if [ -f "$FILENAME" ]; then
     while true; do
         read -p "$FILENAME already exists. Redownload? (y/n): " file_choice
         if [[ "$file_choice" =~ ^[Yy]$ ]]; then
-			rm -f "$FILENAME" "$SQLNAME"
-			curl -L -o "$FILENAME" "$DB_REPO_URL"
-			break
+            rm -f "$FILENAME" "$SQLNAME"     # Remove existing files
+            curl -L -o "$FILENAME" "$DB_REPO_URL"  # Download again
+            break
         elif [[ "$file_choice" =~ ^[Nn]$ ]]; then
             echo "Skipping download." && break
         else
@@ -144,8 +143,8 @@ if [ -f "$FILENAME" ]; then
         fi
     done
 fi
-7z e "$FILENAME"
-mv "$SQLNAME" "$TARGET_DIR"
+7z e "$FILENAME" -o"$TARGET_DIR"     # 'e' extracts files
+mv "$TARGET_DIR/$SQLNAME" "$TARGET_DIR/" # Move the SQL file to TARGET_DIR
 rm "$FILENAME"
 fi
 
