@@ -143,6 +143,8 @@ if [ -f "$TARGET_DIR$SQLNAME" ]; then
             echo "Please answer y (yes) or n (no)."
         fi
     done
+else
+    wget $DB_REPO_URL
 fi
 7z e "$FILENAME"
 rm "$FILENAME"
@@ -155,9 +157,9 @@ echo "##########################################################"
 echo "## $NUM.Download 3.3.5a Client"
 echo "##########################################################"
 echo ""
-cd /home/
 URL="https://btground.tk/chmi/ChromieCraft_3.3.5a.zip"
 FILENAME="${URL##*/}"
+cd /home/
 if [ -f "$FILENAME" ]; then
     while true; do
         read -p "$FILENAME already exists. Redownload? (y/n): " file_choice
@@ -169,6 +171,8 @@ if [ -f "$FILENAME" ]; then
             echo "Please answer y (yes) or n (no)."
         fi
     done
+else
+	sudo wget $URL
 fi
 if [ -d "/home/WoW335" ]; then
     while true; do
@@ -181,6 +185,8 @@ if [ -d "/home/WoW335" ]; then
             echo "Please answer y (yes) or n (no)."
         fi
     done
+else
+	unzip "$FILENAME"
 fi
 if [ -d "/home/ChromieCraft_3.3.5a" ]; then
 	mv -f /home/ChromieCraft_3.3.5a /home/WoW335
@@ -207,17 +213,20 @@ echo "##########################################################"
 echo "## $NUM.Run Map Extractor"
 echo "##########################################################"
 echo ""
+cd /home/WoW335/
 if [ -d "/home/WoW335/maps" ]; then
     while true; do
         read -p "maps Folder already exists. Reextract? (y/n): " folder_choice
         if [[ "$folder_choice" =~ ^[Yy]$ ]]; then
-            cd /home/WoW335/ && ./mapextractor && break
+            ./mapextractor && break
         elif [[ "$folder_choice" =~ ^[Nn]$ ]]; then
             echo "Skipping extraction." && break
         else
             echo "Please answer y (yes) or n (no)."
         fi
     done
+else
+	./mapextractor
 fi
 cp /home/WoW335/dbc /home/$SETUP_REALM_USER/server/data/
 cp /home/WoW335/Cameras /home/$SETUP_REALM_USER/server/data/
@@ -231,17 +240,20 @@ echo "##########################################################"
 echo "## $NUM.Run VMap Extractor"
 echo "##########################################################"
 echo ""
+cd /home/WoW335/
 if [ -d "/home/WoW335/vmaps" ]; then
     while true; do
         read -p "vmaps Folder already exists. Reextract? (y/n): " folder_choice
         if [[ "$folder_choice" =~ ^[Yy]$ ]]; then
-            cd /home/WoW335/ && ./vmap4extractor && ./vmap4assembler && break
+            ./vmap4extractor && ./vmap4assembler && break
         elif [[ "$folder_choice" =~ ^[Nn]$ ]]; then
             echo "Skipping extraction." && break
         else
             echo "Please answer y (yes) or n (no)."
         fi
     done
+else
+	./vmap4extractor && ./vmap4assembler
 fi
 cp /home/WoW335/Buildings /home/$SETUP_REALM_USER/server/data/
 cp /home/WoW335/vmaps /home/$SETUP_REALM_USER/server/data/
