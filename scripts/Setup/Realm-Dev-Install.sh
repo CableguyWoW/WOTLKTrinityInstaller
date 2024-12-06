@@ -131,10 +131,20 @@ echo ""
 FILENAME="${DB_REPO_URL##*/}" # Get the filename from the URL
 SQLNAME="${FILENAME%.7z}.sql" # Replace .7z with .sql
 TARGET_DIR="/home/$SETUP_REALM_USER/server/bin" # Change this to your target directory
-# Remove existing files to avoid conflicts
-rm -f "$FILENAME" "$SQLNAME"
-# Download, extract, move, and clean up in one line
-curl -L -o "$FILENAME" "$DB_REPO_URL"
+if [ -f "$FILENAME" ]; then
+    while true; do
+        read -p "$FILENAME already exists. Redownload? (y/n): " file_choice
+        if [[ "$file_choice" =~ ^[Yy]$ ]]; then
+			rm -f "$FILENAME" "$SQLNAME"
+			curl -L -o "$FILENAME" "$DB_REPO_URL"
+			break
+        elif [[ "$file_choice" =~ ^[Nn]$ ]]; then
+            echo "Skipping download." && break
+        else
+            echo "Please answer y (yes) or n (no)."
+        fi
+    done
+fi
 7z e "$FILENAME"
 mv "$SQLNAME" "$TARGET_DIR"
 rm "$FILENAME"
@@ -149,10 +159,34 @@ echo "##########################################################"
 echo ""
 cd /home/$SETUP_REALM_USER/
 URL="https://btground.tk/chmi/ChromieCraft_3.3.5a.zip"
-wget $URL
 FILENAME="${URL##*/}"
-unzip "$FILENAME"
-mv /home/$SETUP_REALM_USER/ChromieCraft_3.3.5a /home/$SETUP_REALM_USER/WoW335
+if [ -f "$FILENAME" ]; then
+    while true; do
+        read -p "$FILENAME already exists. Redownload? (y/n): " file_choice
+        if [[ "$file_choice" =~ ^[Yy]$ ]]; then
+            rm "$FILENAME" && wget $URL && break
+        elif [[ "$file_choice" =~ ^[Nn]$ ]]; then
+            echo "Skipping download." && break
+        else
+            echo "Please answer y (yes) or n (no)."
+        fi
+    done
+fi
+if [ -d "/home/$SETUP_REALM_USER/WoW335" ]; then
+    while true; do
+        read -p "WoW335 Folder already exists. Reextract? (y/n): " folder_choice
+        if [[ "$folder_choice" =~ ^[Yy]$ ]]; then
+            unzip "$FILENAME" && break
+        elif [[ "$folder_choice" =~ ^[Nn]$ ]]; then
+            echo "Skipping extraction." && break
+        else
+            echo "Please answer y (yes) or n (no)."
+        fi
+    done
+fi
+if [ -d "/home/$SETUP_REALM_USER/ChromieCraft_3.3.5a" ]; then
+	mv -f /home/$SETUP_REALM_USER/ChromieCraft_3.3.5a /home/$SETUP_REALM_USER/WoW335
+fi
 fi
 
 ((NUM++))
