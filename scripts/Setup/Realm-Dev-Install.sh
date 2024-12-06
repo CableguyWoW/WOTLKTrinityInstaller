@@ -129,11 +129,11 @@ echo ""
 FILENAME="${DB_REPO_URL##*/}"           # Get the filename from the URL
 SQLNAME="${FILENAME%.7z}.sql"            # Replace .7z with .sql
 TARGET_DIR="/home/$SETUP_REALM_USER/server/bin" # Change this to your target directory
+cd $TARGET_DIR
 if [ -f "$TARGET_DIR$SQLNAME" ]; then
     while true; do
-        read -p "$FILENAME already exists. Redownload? (y/n): " file_choice
+        read -p "$SQLNAME already exists. Redownload? (y/n): " file_choice
         if [[ "$file_choice" =~ ^[Yy]$ ]]; then
-			cd /home/$SETUP_REALM_USER/
             wget $DB_REPO_URL
             break
         elif [[ "$file_choice" =~ ^[Nn]$ ]]; then
@@ -143,8 +143,7 @@ if [ -f "$TARGET_DIR$SQLNAME" ]; then
         fi
     done
 fi
-7z e "$FILENAME" -o"$TARGET_DIR"     # 'e' extracts files
-mv "$TARGET_DIR/$SQLNAME" "$TARGET_DIR/" # Move the SQL file to TARGET_DIR
+7z e "$FILENAME"
 rm "$FILENAME"
 fi
 
