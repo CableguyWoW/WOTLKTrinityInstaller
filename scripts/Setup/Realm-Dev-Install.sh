@@ -129,7 +129,7 @@ echo ""
 FILENAME="${DB_REPO_URL##*/}"           # Get the filename from the URL
 SQLNAME="${FILENAME%.7z}.sql"            # Replace .7z with .sql
 TARGET_DIR="/home/$SETUP_REALM_USER/server/bin" # Change this to your target directory
-if [ -f "$FILENAME" ]; then
+if [ -f "$SQLNAME" ]; then
     while true; do
         read -p "$FILENAME already exists. Redownload? (y/n): " file_choice
         if [[ "$file_choice" =~ ^[Yy]$ ]]; then
@@ -155,14 +155,14 @@ echo "##########################################################"
 echo "## $NUM.Download 3.3.5a Client"
 echo "##########################################################"
 echo ""
-cd /home/$SETUP_REALM_USER/
+cd /home/
 URL="https://btground.tk/chmi/ChromieCraft_3.3.5a.zip"
 FILENAME="${URL##*/}"
 if [ -f "$FILENAME" ]; then
     while true; do
         read -p "$FILENAME already exists. Redownload? (y/n): " file_choice
         if [[ "$file_choice" =~ ^[Yy]$ ]]; then
-            rm "$FILENAME" && wget $URL && break
+            rm "$FILENAME" && sudo wget $URL && break
         elif [[ "$file_choice" =~ ^[Nn]$ ]]; then
             echo "Skipping download." && break
         else
@@ -182,8 +182,8 @@ if [ -d "/home/$SETUP_REALM_USER/WoW335" ]; then
         fi
     done
 fi
-if [ -d "/home/$SETUP_REALM_USER/ChromieCraft_3.3.5a" ]; then
-	mv -f /home/$SETUP_REALM_USER/ChromieCraft_3.3.5a /home/$SETUP_REALM_USER/WoW335
+if [ -d "/home/ChromieCraft_3.3.5a" ]; then
+	mv -f /home/ChromieCraft_3.3.5a /home/WoW335
 fi
 fi
 
@@ -194,10 +194,10 @@ echo "##########################################################"
 echo "## $NUM.Setup Client Tools"
 echo "##########################################################"
 echo ""
-cp /home/$SETUP_REALM_USER/server/bin/mapextractor /home/$SETUP_REALM_USER/WoW335/
-cp /home/$SETUP_REALM_USER/server/bin/vmap4extractor /home/$SETUP_REALM_USER/WoW335/
-cp /home/$SETUP_REALM_USER/server/bin/mmaps_generator /home/$SETUP_REALM_USER/WoW335/
-cp /home/$SETUP_REALM_USER/server/bin/vmap4assembler /home/$SETUP_REALM_USER/WoW335/
+cp /home/$SETUP_REALM_USER/server/bin/mapextractor /home/WoW335/
+cp /home/$SETUP_REALM_USER/server/bin/vmap4extractor /home/WoW335/
+cp /home/$SETUP_REALM_USER/server/bin/mmaps_generator /home/WoW335/
+cp /home/$SETUP_REALM_USER/server/bin/vmap4assembler /home/WoW335/
 fi
 
 ((NUM++))
@@ -207,10 +207,21 @@ echo "##########################################################"
 echo "## $NUM.Run Map Extractor"
 echo "##########################################################"
 echo ""
-cd /home/$SETUP_REALM_USER/WoW335/ && ./mapextractor
-cp /home/$SETUP_REALM_USER/WoW335/dbc /home/$SETUP_REALM_USER/server/data/
-cp /home/$SETUP_REALM_USER/WoW335/Cameras /home/$SETUP_REALM_USER/server/data/
-cp /home/$SETUP_REALM_USER/WoW335/maps /home/$SETUP_REALM_USER/server/data/
+if [ -d "/home/WoW335/maps" ]; then
+    while true; do
+        read -p "maps Folder already exists. Reextract? (y/n): " folder_choice
+        if [[ "$folder_choice" =~ ^[Yy]$ ]]; then
+            cd /home/WoW335/ && ./mapextractor && break
+        elif [[ "$folder_choice" =~ ^[Nn]$ ]]; then
+            echo "Skipping extraction." && break
+        else
+            echo "Please answer y (yes) or n (no)."
+        fi
+    done
+fi
+cp /home/WoW335/dbc /home/$SETUP_REALM_USER/server/data/
+cp /home/WoW335/Cameras /home/$SETUP_REALM_USER/server/data/
+cp /home/WoW335/maps /home/$SETUP_REALM_USER/server/data/
 fi
 
 ((NUM++))
@@ -220,9 +231,20 @@ echo "##########################################################"
 echo "## $NUM.Run VMap Extractor"
 echo "##########################################################"
 echo ""
-cd /home/$SETUP_REALM_USER/WoW335/ && ./vmap4extractor && ./vmap4assembler
-cp /home/$SETUP_REALM_USER/WoW335/Buildings /home/$SETUP_REALM_USER/server/data/
-cp /home/$SETUP_REALM_USER/WoW335/vmaps /home/$SETUP_REALM_USER/server/data/
+if [ -d "/home/WoW335/vmaps" ]; then
+    while true; do
+        read -p "vmaps Folder already exists. Reextract? (y/n): " folder_choice
+        if [[ "$folder_choice" =~ ^[Yy]$ ]]; then
+            cd /home/WoW335/ && ./vmap4extractor && ./vmap4assembler && break
+        elif [[ "$folder_choice" =~ ^[Nn]$ ]]; then
+            echo "Skipping extraction." && break
+        else
+            echo "Please answer y (yes) or n (no)."
+        fi
+    done
+fi
+cp /home/WoW335/Buildings /home/$SETUP_REALM_USER/server/data/
+cp /home/WoW335/vmaps /home/$SETUP_REALM_USER/server/data/
 fi
 
 ((NUM++))
@@ -232,8 +254,19 @@ echo "##########################################################"
 echo "## $NUM.Run Mmaps Extractor"
 echo "##########################################################"
 echo ""
-cd /home/$SETUP_REALM_USER/WoW335/ && ./mmaps_generator
-cp /home/$SETUP_REALM_USER/WoW335/mmaps /home/$SETUP_REALM_USER/server/data/
+if [ -d "/home/WoW335/mmaps" ]; then
+    while true; do
+        read -p "mmaps Folder already exists. Reextract? (y/n): " folder_choice
+        if [[ "$folder_choice" =~ ^[Yy]$ ]]; then
+            cd /home/WoW335/ && ./mmaps_generator && break
+        elif [[ "$folder_choice" =~ ^[Nn]$ ]]; then
+            echo "Skipping extraction." && break
+        else
+            echo "Please answer y (yes) or n (no)."
+        fi
+    done
+fi
+cp /home/WoW335/mmaps /home/$SETUP_REALM_USER/server/data/
 fi
 
 ((NUM++))
