@@ -251,8 +251,11 @@ if [ -d "/home/WoW335/maps" ]; then
 else
 	./mapextractor
 fi
+echo "Copying dbc folder"
 cp -r /home/WoW335/dbc /home/$SETUP_REALM_USER/server/data/
+echo "Copying Cameras folder"
 cp -r /home/WoW335/Cameras /home/$SETUP_REALM_USER/server/data/
+echo "Copying maps folder"
 cp -r /home/WoW335/maps /home/$SETUP_REALM_USER/server/data/
 fi
 
@@ -278,7 +281,9 @@ if [ -d "/home/WoW335/vmaps" ]; then
 else
 	./vmap4extractor && ./vmap4assembler
 fi
+echo "Copying Buildings folder"
 cp -r /home/WoW335/Buildings /home/$SETUP_REALM_USER/server/data/
+echo "Copying vmaps folder"
 cp -r /home/WoW335/vmaps /home/$SETUP_REALM_USER/server/data/
 fi
 
@@ -301,6 +306,7 @@ if [ -d "/home/WoW335/mmaps" ]; then
         fi
     done
 fi
+echo "Copying mmaps folder"
 cp -r /home/WoW335/mmaps /home/$SETUP_REALM_USER/server/data/
 fi
 
