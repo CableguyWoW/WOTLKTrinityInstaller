@@ -123,31 +123,40 @@ fi
 if [ "$1" = "all" ] || [ "$1" = "update" ] || [ "$1" = "$NUM" ]; then
 echo ""
 echo "##########################################################"
-echo "## $NUM.Downloading TDB"
+echo "## $NUM. Downloading TDB"
 echo "##########################################################"
 echo ""
+
 FILENAME="${DB_REPO_URL##*/}"           # Get the filename from the URL
-SQLNAME="${FILENAME%.7z}.sql"            # Replace .7z with .sql
-TARGET_DIR="/home/$SETUP_REALM_USER/server/bin" # Change this to your target directory
-cd $TARGET_DIR
-if [ -f "$TARGET_DIR$SQLNAME" ]; then
-    while true; do
-        read -p "$SQLNAME already exists. Redownload? (y/n): " file_choice
-        if [[ "$file_choice" =~ ^[Yy]$ ]]; then
-			rm "$FILENAME"
-            wget $DB_REPO_URL
-            break
-        elif [[ "$file_choice" =~ ^[Nn]$ ]]; then
-            echo "Skipping download." && break
-        else
-            echo "Please answer y (yes) or n (no)."
-        fi
-    done
+SQLNAME="${FILENAME%.7z}.sql"           # Replace .7z with .sql
+TARGET_DIR="/home/$SETUP_REALM_USER/server/bin"
+
+cd "$TARGET_DIR" || { echo "Directory does not exist: $TARGET_DIR"; exit 1; }
+
+if [ -f "$SQLNAME" ]; then
+	while true; do
+		read -p "$SQLNAME already exists. Redownload? (y/n): " file_choice
+		if [[ "$file_choice" =~ ^[Yy]$ ]]; then
+			rm -f "$FILENAME" "$SQLNAME"  # Remove both files
+			wget "$DB_REPO_URL"
+			break
+		elif [[ "$file_choice" =~ ^[Nn]$ ]]; then
+			echo "Skipping download." && break
+		else
+			echo "Please answer y (yes) or n (no)."
+		fi
+	done
 else
-    wget $DB_REPO_URL
+	wget "$DB_REPO_URL"
 fi
-7z e "$FILENAME"
-rm "$FILENAME"
+
+# Ensure the file exists before extracting
+if [ -f "$FILENAME" ]; then
+	7z e "$FILENAME"
+	rm "$FILENAME"
+else
+	echo "Error: $FILENAME not found after download."
+fi
 fi
 
 ((NUM++))
