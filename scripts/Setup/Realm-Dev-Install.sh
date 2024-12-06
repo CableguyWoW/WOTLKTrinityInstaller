@@ -170,7 +170,7 @@ if [ -f "$FILENAME" ]; then
         fi
     done
 fi
-if [ -d "/home/$SETUP_REALM_USER/WoW335" ]; then
+if [ -d "/home/WoW335" ]; then
     while true; do
         read -p "WoW335 Folder already exists. Reextract? (y/n): " folder_choice
         if [[ "$folder_choice" =~ ^[Yy]$ ]]; then
