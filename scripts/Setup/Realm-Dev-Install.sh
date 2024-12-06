@@ -129,12 +129,12 @@ echo ""
 FILENAME="${DB_REPO_URL##*/}"           # Get the filename from the URL
 SQLNAME="${FILENAME%.7z}.sql"            # Replace .7z with .sql
 TARGET_DIR="/home/$SETUP_REALM_USER/server/bin" # Change this to your target directory
-if [ -f "$SQLNAME" ]; then
+if [ -f "$TARGET_DIR$SQLNAME" ]; then
     while true; do
         read -p "$FILENAME already exists. Redownload? (y/n): " file_choice
         if [[ "$file_choice" =~ ^[Yy]$ ]]; then
-            rm -f "$FILENAME" "$SQLNAME"     # Remove existing files
-            curl -L -o "$FILENAME" "$DB_REPO_URL"  # Download again
+			cd /home/$SETUP_REALM_USER/
+            wget $DB_REPO_URL
             break
         elif [[ "$file_choice" =~ ^[Nn]$ ]]; then
             echo "Skipping download." && break
@@ -299,7 +299,7 @@ echo ""
 mkdir /home/$SETUP_REALM_USER/server/scripts/
 mkdir /home/$SETUP_REALM_USER/server/scripts/Restarter/
 mkdir /home/$SETUP_REALM_USER/server/scripts/Restarter/World/
-sudo cp -r -u /WOTLKTrinityInstaller/scripts/Restarter/World/* /home/$SETUP_AUTH_USER/server/scripts/Restarter/World/
+sudo cp -r -u /WOTLKTrinityInstaller/scripts/Restarter/World/* /home/$SETUP_REALM_USER/server/scripts/Restarter/World/
 ## FIX SCRIPTS PERMISSIONS
 sudo chmod +x /home/$SETUP_REALM_USER/server/scripts/Restarter/World/GDB/start_gdb.sh
 sudo chmod +x /home/$SETUP_REALM_USER/server/scripts/Restarter/World/GDB/restarter_world_gdb.sh
