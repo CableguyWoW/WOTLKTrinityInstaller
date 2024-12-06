@@ -197,6 +197,7 @@ else
 fi
 if [ -d "/home/ChromieCraft_3.3.5a" ]; then
 	sudo mv -f /home/ChromieCraft_3.3.5a /home/WoW335
+	sudo chmod -R 777 /home/WoW335
 fi
 if [ -f "/home/$FILENAME" ]; then
     while true; do
