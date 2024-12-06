@@ -226,6 +226,7 @@ cp /home/$SETUP_REALM_USER/server/bin/mapextractor /home/WoW335/
 cp /home/$SETUP_REALM_USER/server/bin/vmap4extractor /home/WoW335/
 cp /home/$SETUP_REALM_USER/server/bin/mmaps_generator /home/WoW335/
 cp /home/$SETUP_REALM_USER/server/bin/vmap4assembler /home/WoW335/
+echo "Client tools copied over to /home/WoW335"
 fi
 
 ((NUM++))
@@ -250,9 +251,9 @@ if [ -d "/home/WoW335/maps" ]; then
 else
 	./mapextractor
 fi
-cp /home/WoW335/dbc /home/$SETUP_REALM_USER/server/data/
-cp /home/WoW335/Cameras /home/$SETUP_REALM_USER/server/data/
-cp /home/WoW335/maps /home/$SETUP_REALM_USER/server/data/
+cp -r /home/WoW335/dbc /home/$SETUP_REALM_USER/server/data/
+cp -r /home/WoW335/Cameras /home/$SETUP_REALM_USER/server/data/
+cp -r /home/WoW335/maps /home/$SETUP_REALM_USER/server/data/
 fi
 
 ((NUM++))
@@ -277,8 +278,8 @@ if [ -d "/home/WoW335/vmaps" ]; then
 else
 	./vmap4extractor && ./vmap4assembler
 fi
-cp /home/WoW335/Buildings /home/$SETUP_REALM_USER/server/data/
-cp /home/WoW335/vmaps /home/$SETUP_REALM_USER/server/data/
+cp -r /home/WoW335/Buildings /home/$SETUP_REALM_USER/server/data/
+cp -r /home/WoW335/vmaps /home/$SETUP_REALM_USER/server/data/
 fi
 
 ((NUM++))
@@ -300,7 +301,7 @@ if [ -d "/home/WoW335/mmaps" ]; then
         fi
     done
 fi
-cp /home/WoW335/mmaps /home/$SETUP_REALM_USER/server/data/
+cp -r /home/WoW335/mmaps /home/$SETUP_REALM_USER/server/data/
 fi
 
 ((NUM++))
