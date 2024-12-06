@@ -178,7 +178,7 @@ if [ -d "/home/WoW335" ]; then
     while true; do
         read -p "WoW335 Folder already exists. Reextract? (y/n): " folder_choice
         if [[ "$folder_choice" =~ ^[Yy]$ ]]; then
-            unzip "$FILENAME" && break
+            sudo unzip "$FILENAME" && break
         elif [[ "$folder_choice" =~ ^[Nn]$ ]]; then
             echo "Skipping extraction." && break
         else
@@ -186,7 +186,7 @@ if [ -d "/home/WoW335" ]; then
         fi
     done
 else
-	unzip "$FILENAME"
+	sudo unzip "$FILENAME"
 fi
 if [ -d "/home/ChromieCraft_3.3.5a" ]; then
 	mv -f /home/ChromieCraft_3.3.5a /home/WoW335
