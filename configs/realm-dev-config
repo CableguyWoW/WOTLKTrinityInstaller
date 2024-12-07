@@ -4,6 +4,7 @@ CORE_BRANCH="3.3.5"
 REALM_NAME="Dev Realm"
 REALM_ID="1"
 REALM_ZONE="8" # https://wowdev.wiki/DB/Cfg_Categories
+REALM_SECURITY="0" # https://trinitycore.info/en/database/335/auth/account_access#securitylevel
 
 ########## SETUP SETTINGS
 SETUP_REALM_PORT="8085"
