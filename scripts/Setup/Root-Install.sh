@@ -121,9 +121,6 @@ echo "## $NUM. Setting up MySQL Users"
 echo "##########################################################"
 echo ""
 
-# Update the password for the ROOT user
-mysql -u "$ROOT_USER" -p"$ROOT_PASS" -D mysql -e "ALTER USER '$ROOT_USER'@'localhost' IDENTIFIED BY '$ROOT_PASS';"
-
 # Remote DB User Setup
 if [ "$REMOTE_DB_SETUP" == "true" ]; then
     # Create remote user if it doesn't exist
