@@ -1,1 +1,1 @@
-find /home/USER/public/logs/crashes/ -maxdepth 1 -type f -size -480k -delete
+find /home/USER/logs/crashes/ -maxdepth 1 -type f -size -480k -delete

@@ -143,8 +143,8 @@ sed -i 's/WorldServerPort = 8085/WorldServerPort = '${SETUP_DEV_REALM_PORT}'/g' 
 sed -i 's/RealmZone = 1/RealmZone = '${REALM_ZONE}'/g' worldserver.conf
 sed -i 's/mmap.enablePathFinding = 0/mmap.enablePathFinding = 1/g' worldserver.conf
 ## Folders
-sed -i 's^LogsDir = ""^LogsDir = "/home/'${SETUP_REALM_USER}'/server/data"^g' worldserver.conf
-sed -i 's^DataDir = "."^DataDir = "/home/'${SETUP_REALM_USER}'/server/logs"^g' worldserver.conf
+sed -i 's^LogsDir = ""^LogsDir = "/home/'${SETUP_REALM_USER}'/server/logs"^g' worldserver.conf
+sed -i 's^DataDir = "."^DataDir = "/home/'${SETUP_REALM_USER}'/server/data"^g' worldserver.conf
 sed -i 's^BuildDirectory  = ""^BuildDirectory  = "/home/'${SETUP_REALM_USER}'/TrinityCore/build"^g' worldserver.conf
 sed -i 's^SourceDirectory  = ""^SourceDirectory  = "/home/'${SETUP_REALM_USER}'/TrinityCore/"^g' worldserver.conf
 ## LoginDatabaseInfo
