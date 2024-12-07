@@ -6,6 +6,8 @@
 . /WOTLKTrinityInstaller/configs/root-config
 . /WOTLKTrinityInstaller/configs/repo-config
 . /WOTLKTrinityInstaller/configs/auth-config
+. /WOTLKTrinityInstaller/configs/realm-dev-config
+
 
 if [ $USER != "$SETUP_AUTH_USER" ]; then
 

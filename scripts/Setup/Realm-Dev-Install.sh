@@ -4,7 +4,6 @@
 ### TESTED WITH UBUNTU ONLY
 
 . /WOTLKTrinityInstaller/configs/root-config
-. /WOTLKTrinityInstaller/configs/backup-config
 . /WOTLKTrinityInstaller/configs/repo-config
 . /WOTLKTrinityInstaller/configs/auth-config
 . /WOTLKTrinityInstaller/configs/realm-dev-config
