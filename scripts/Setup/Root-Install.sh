@@ -56,31 +56,60 @@ fi
 if [ "$1" = "all" ] || [ "$1" = "$NUM" ]; then
 echo ""
 echo "##########################################################"
-echo "## $NUM.Install MySQL Server"
+echo "## $NUM. Install MySQL Server"
 echo "##########################################################"
 echo ""
+
+# Set root password for MySQL installation
 echo "mysql-server mysql-server/root_password password $ROOT_PASS" | sudo debconf-set-selections
 echo "mysql-server mysql-server/root_password_again password $ROOT_PASS" | sudo debconf-set-selections
+
+# Install MySQL server
 apt-get -y install mysql-server
-# sudo /bin/sh -c 'echo "skip-grant-tables" >> /etc/mysql/mysql.conf.d/mysqld.cnf'
-sudo /bin/sh -c 'echo "skip-networking" >> /etc/mysql/mysql.conf.d/mysqld.cnf'
-sed -i 's/max_allowed_packet/#max_allowed_packet/g' /etc/mysql/mysql.conf.d/mysqld.cnf
-sudo /bin/sh -c 'echo "max_allowed_packet	= 128M" >> /etc/mysql/mysql.conf.d/mysqld.cnf'
-sudo /bin/sh -c 'echo 'sql_mode=""' >> /etc/mysql/mysql.conf.d/mysqld.cnf'
-service mysql restart
-mysql -u root << EOF
-use mysql;
-update user set user='$ROOT_USER' where user='root';
-ALTER USER '$ROOT_USER'@'localhost' IDENTIFIED BY '$ROOT_PASS';
-flush privileges;
-quit
-EOF
-sed -i 's/skip-grant-tables/#skip-grant-tables/g' /etc/mysql/mysql.conf.d/mysqld.cnf
-sed -i 's/skip-networking/#skip-networking/g' /etc/mysql/mysql.conf.d/mysqld.cnf
-if [ $REMOTE_DB_SETUP == "true" ]; then
-    sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mysql/mysql.conf.d/mysqld.cnf
+
+# Configure MySQL settings
+MY_CNF="/etc/mysql/mysql.conf.d/mysqld.cnf"
+
+# Add skip-networking if not present
+if ! grep -q "^skip-networking" "$MY_CNF"; then
+    echo "skip-networking" | sudo tee -a "$MY_CNF" > /dev/null
 fi
+
+# Add max_allowed_packet if not present
+if ! grep -q "^max_allowed_packet" "$MY_CNF"; then
+    echo "max_allowed_packet = 128M" | sudo tee -a "$MY_CNF" > /dev/null
+fi
+
+# Add sql_mode if not present
+if ! grep -q "^sql_mode" "$MY_CNF"; then
+    echo 'sql_mode=""' | sudo tee -a "$MY_CNF" > /dev/null
+fi
+
+# Conditionally add bind address if REMOTE_DB_SETUP is true
+if [ "$REMOTE_DB_SETUP" = "true" ]; then
+    if ! grep -q "^bind-address" "$MY_CNF"; then
+        echo "bind-address = 0.0.0.0" | sudo tee -a "$MY_CNF" > /dev/null
+    fi
+fi
+
+# Restart the MySQL service to apply changes
 service mysql restart
+
+# Update MySQL user settings
+mysql -u root << EOF
+USE mysql;
+UPDATE user SET user='$ROOT_USER' WHERE user='root';
+ALTER USER '$ROOT_USER'@'localhost' IDENTIFIED BY '$ROOT_PASS';
+FLUSH PRIVILEGES;
+QUIT;
+EOF
+
+# Remove skip-networking if not required
+sudo sed -i '/^skip-networking/d' "$MY_CNF"
+
+# Optional: Restart MySQL again after user adjustments
+service mysql restart
+fi
 fi
 
 
