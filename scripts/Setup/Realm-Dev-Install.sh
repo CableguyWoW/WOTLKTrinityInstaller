@@ -510,7 +510,14 @@ echo "##########################################################"
 echo "## DEV REALM INSTALLED AND FINISHED!"
 echo "##########################################################"
 echo ""
-
+echo -e "\e[32m↓↓↓ To access the worldserver - Run the following ↓↓↓\e[0m"
+echo ""
+echo "su - $SETUP_REALM_USER -c 'screen -r $SETUP_REALM_USER'"
+echo ""
+echo -e "\e[32m↓↓↓ To access the authserver - Run the following ↓↓↓\e[0m"
+echo ""
+echo "su - $SETUP_AUTH_USER -c 'screen -r $SETUP_AUTH_USER'"
+echo ""
 
 
 fi

@@ -176,6 +176,7 @@ echo "## $NUM.Starting Authserver"
 echo "##########################################################"
 echo ""
 /home/$SETUP_AUTH_USER/server/scripts/Restarter/Auth/start.sh
+echo "Authserver started"
 fi
 
 echo ""
@@ -183,6 +184,15 @@ echo "##########################################################"
 echo "## AUTH INSTALLED AND FINISHED!"
 echo "##########################################################"
 echo ""
+echo -e "\e[32m↓↓↓ To access the authserver - Run the following ↓↓↓\e[0m"
+echo ""
+echo "su - $SETUP_AUTH_USER -c 'screen -r auth'"
+echo ""
+echo -e "\e[32m↓↓↓ To Install the Dev Realm - Run the following ↓↓↓\e[0m"
+echo ""
+echo "su - $SETUP_REALM_USER -c 'cd /WOTLKTrinityInstaller/scripts/Setup/ && ./Realm-Dev-Install.sh all'"
+echo ""
+
 
 fi
 fi
