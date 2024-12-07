@@ -40,7 +40,7 @@ echo ""
 ((NUM++)); echo "- [$NUM] : Pull and Setup Database"
 ((NUM++)); echo "- [$NUM] : Download 3.3.5a Client"
 ((NUM++)); echo "- [$NUM] : Setup Client Tools"
-((NUM++)); echo "- [$NUM] : Run Map Extractor"
+((NUM++)); echo "- [$NUM] : Run Map/DBC Extractor"
 ((NUM++)); echo "- [$NUM] : Run VMap Extractor"
 ((NUM++)); echo "- [$NUM] : Run Mmaps Extractor"
 ((NUM++)); echo "- [$NUM] : Setup Realmlist"
@@ -233,7 +233,7 @@ fi
 if [ "$1" = "all" ] || [ "$1" = "$NUM" ]; then
 echo ""
 echo "##########################################################"
-echo "## $NUM.Run Map Extractor"
+echo "## $NUM.Run Map/DBC Extractor"
 echo "##########################################################"
 echo ""
 cd /home/WoW335/
@@ -251,12 +251,23 @@ if [ -d "/home/WoW335/maps" ]; then
 else
 	./mapextractor
 fi
-echo "Copying dbc folder"
-cp -r /home/WoW335/dbc /home/$SETUP_REALM_USER/server/data/
-echo "Copying Cameras folder"
-cp -r /home/WoW335/Cameras /home/$SETUP_REALM_USER/server/data/
-echo "Copying maps folder"
-cp -r /home/WoW335/maps /home/$SETUP_REALM_USER/server/data/
+while true; do
+	read -p "Would you like to copy the maps/dbc data folders? (y/n): " folder_choice
+	if [[ "$folder_choice" =~ ^[Yy]$ ]]; then
+		echo "Copying dbc folder"
+		cp -r /home/WoW335/dbc /home/$SETUP_REALM_USER/server/data/
+		echo "Copying Cameras folder"
+		cp -r /home/WoW335/Cameras /home/$SETUP_REALM_USER/server/data/
+		echo "Copying maps folder"
+		cp -r /home/WoW335/maps /home/$SETUP_REALM_USER/server/data/
+		break
+	elif [[ "$folder_choice" =~ ^[Nn]$ ]]; then
+		echo "Skipping data copy." && break
+	else
+		echo "Please answer y (yes) or n (no)."
+	fi
+done
+
 fi
 
 ((NUM++))
@@ -281,10 +292,20 @@ if [ -d "/home/WoW335/vmaps" ]; then
 else
 	./vmap4extractor && ./vmap4assembler
 fi
-echo "Copying Buildings folder"
-cp -r /home/WoW335/Buildings /home/$SETUP_REALM_USER/server/data/
-echo "Copying vmaps folder"
-cp -r /home/WoW335/vmaps /home/$SETUP_REALM_USER/server/data/
+while true; do
+	read -p "Would you like to copy the vmap data folders? (y/n): " folder_choice
+	if [[ "$folder_choice" =~ ^[Yy]$ ]]; then
+		echo "Copying Buildings folder"
+		cp -r /home/WoW335/Buildings /home/$SETUP_REALM_USER/server/data/
+		echo "Copying vmaps folder"
+		cp -r /home/WoW335/vmaps /home/$SETUP_REALM_USER/server/data/
+		break
+	elif [[ "$folder_choice" =~ ^[Nn]$ ]]; then
+		echo "Skipping data copy." && break
+	else
+		echo "Please answer y (yes) or n (no)."
+	fi
+done
 fi
 
 ((NUM++))
@@ -309,8 +330,18 @@ if [ -d "/home/WoW335/mmaps" ]; then
 else
 	./mmaps_generator
 fi
-echo "Copying mmaps folder"
-cp -r /home/WoW335/mmaps /home/$SETUP_REALM_USER/server/data/
+while true; do
+	read -p "Would you like to copy the mmaps data folders? (y/n): " folder_choice
+	if [[ "$folder_choice" =~ ^[Yy]$ ]]; then
+		echo "Copying mmaps folder"
+		cp -r /home/WoW335/mmaps /home/$SETUP_REALM_USER/server/data/
+		break
+	elif [[ "$folder_choice" =~ ^[Nn]$ ]]; then
+		echo "Skipping data copy." && break
+	else
+		echo "Please answer y (yes) or n (no)."
+	fi
+done
 fi
 
 ((NUM++))
