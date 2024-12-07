@@ -101,7 +101,7 @@ USE mysql;
 UPDATE user SET user='$ROOT_USER' WHERE user='root';
 ALTER USER '$ROOT_USER'@'localhost' IDENTIFIED BY '$ROOT_PASS';
 FLUSH PRIVILEGES;
-QUIT;
+quit
 EOF
 
 # Remove skip-networking if not required
@@ -120,33 +120,49 @@ echo "##########################################################"
 echo "## $NUM. Setting up MySQL Users"
 echo "##########################################################"
 echo ""
+
 # Update the password for the ROOT user
 mysql -u "$ROOT_USER" -p"$ROOT_PASS" -D mysql -e "ALTER USER '$ROOT_USER'@'localhost' IDENTIFIED BY '$ROOT_PASS';"
 
 # Remote DB User Setup
 if [ "$REMOTE_DB_SETUP" == "true" ]; then
-    # Create the remote DB user
-    mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "CREATE USER '$REMOTE_DB_USER'@'$REMOTE_DB_HOST' IDENTIFIED BY '$REMOTE_DB_PASS';"
-    mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "GRANT USAGE ON *.* TO '$REMOTE_DB_USER'@'$REMOTE_DB_HOST' WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0;"
+    # Check if remote user exists before creating
+    if ! mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "SELECT User FROM mysql.user WHERE User = '$REMOTE_DB_USER' AND Host = '$REMOTE_DB_HOST'"; then
+        mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "CREATE USER '$REMOTE_DB_USER'@'$REMOTE_DB_HOST' IDENTIFIED BY '$REMOTE_DB_PASS';"
+        echo "Remote DB user '$REMOTE_DB_USER' created."
+    fi
+
+    # Grant necessary permissions
     mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "GRANT ALL PRIVILEGES ON *.* TO '$REMOTE_DB_USER'@'$REMOTE_DB_HOST' WITH GRANT OPTION;"
     echo "Setup Remote DB Account"
 fi
 
 # World Database Setup
-mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "CREATE DATABASE ${REALM_DB_USER}_world DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;"
-mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "CREATE DATABASE ${REALM_DB_USER}_character DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;"
-# Create the realm user
-mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "CREATE USER '${REALM_DB_USER}'@'localhost' IDENTIFIED BY '$REALM_DB_PASS';"
-mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "GRANT USAGE ON ${REALM_DB_USER}_world.* TO '${REALM_DB_USER}'@'localhost' WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0;"
-mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "GRANT USAGE ON ${REALM_DB_USER}_character.* TO '${REALM_DB_USER}'@'localhost' WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0;"
+[[ ! -d "$REALM_DB_USER"_world ]] && mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "CREATE DATABASE ${REALM_DB_USER}_world DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;"
+[[ ! -d "$REALM_DB_USER"_character ]] && mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "CREATE DATABASE ${REALM_DB_USER}_character DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;"
+
+# Create the realm user if it does not already exist
+if ! mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "SELECT User FROM mysql.user WHERE User = '${REALM_DB_USER}' AND Host = 'localhost';"; then
+    mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "CREATE USER '${REALM_DB_USER}'@'localhost' IDENTIFIED BY '$REALM_DB_PASS';"
+    echo "Realm DB user '${REALM_DB_USER}' created."
+fi
+
 mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "GRANT ALL PRIVILEGES ON ${REALM_DB_USER}_world.* TO '${REALM_DB_USER}'@'localhost';"
 mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "GRANT ALL PRIVILEGES ON ${REALM_DB_USER}_character.* TO '${REALM_DB_USER}'@'localhost';"
 echo "Setup World DB Account"
+
 # Auth Database Setup
-mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "CREATE DATABASE auth DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;"
-# Create the auth user
-mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "CREATE USER '$AUTH_DB_USER'@'localhost' IDENTIFIED BY '$AUTH_DB_PASS';"
-mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "GRANT USAGE ON auth.* TO '$AUTH_DB_USER'@'localhost' WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0;"
+if ! mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "SHOW DATABASES LIKE 'auth';"; then
+    mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "CREATE DATABASE auth DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;"
+    echo "Auth database created."
+fi
+
+# Create the auth user if it does not already exist
+if ! mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "SELECT User FROM mysql.user WHERE User = '$AUTH_DB_USER' AND Host = 'localhost';"; then
+    mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "CREATE USER '$AUTH_DB_USER'@'localhost' IDENTIFIED BY '$AUTH_DB_PASS';"
+    echo "Auth DB user '$AUTH_DB_USER' created."
+fi
+
 mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "GRANT ALL PRIVILEGES ON auth.* TO '$AUTH_DB_USER'@'localhost';"
 echo "Setup Auth DB Account"
 
