@@ -166,7 +166,7 @@ echo ""
 
 FILENAME="${DB_REPO_URL##*/}"           # Get the filename from the URL
 SQLNAME="${FILENAME%.7z}.sql"           # Replace .7z with .sql
-TARGET_DIR="/home/$SETUP_REALM_USER/server/bin"
+TARGET_DIR="/home/$SETUP_REALM_USER/server"
 
 cd "$TARGET_DIR" || { echo "Directory does not exist: $TARGET_DIR"; exit 1; }
 
