@@ -99,7 +99,7 @@ service mysql restart
 mysql -u root << EOF
 USE mysql;
 UPDATE user SET user='$ROOT_USER' WHERE user='root';
-ALTER USER '$ROOT_USER'@'localhost' IDENTIFIED BY '$ROOT_PASS';
+ALTER USER '$ROOT_USER'@'localhost' WITH mysql_native_password BY IDENTIFIED BY '$ROOT_PASS';
 FLUSH PRIVILEGES;
 quit
 EOF
