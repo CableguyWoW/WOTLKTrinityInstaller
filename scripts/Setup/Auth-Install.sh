@@ -92,7 +92,7 @@ fi
 echo "Changing Config values"
 sed -i 's^LogsDir = ""^LogsDir = "/home/'${SETUP_AUTH_USER}'/server/logs"^g' authserver.conf
 sed -i "s/Updates.EnableDatabases = 0/Updates.EnableDatabases = 1/g" authserver.conf
-sed -i "s/127.0.0.1;3306;trinity;trinity;auth/${AUTH_DB_HOST};3306;${AUTH_DB_USER};${AUTH_DB_PASS};${AUTH_WORLD_DB_DB};${AUTH_DB_USER};/g" authserver.conf
+sed -i "s/127.0.0.1;3306;trinity;trinity;auth/${AUTH_DB_HOST};3306;${AUTH_DB_USER};${AUTH_DB_PASS};${AUTH_DB_USER};};/g" authserver.conf
 fi
 
 
@@ -150,7 +150,7 @@ then
 	echo "alias commands present"
 else
 	echo "## COMMANDS" >> ~/.bashrc
-	echo "alias commands='cd /home/install/scripts/Setup/ && ./Auth-Install.sh && cd -'" >> ~/.bashrc
+	echo "alias commands='cd /WOTLKTrinityInstaller/scripts/Setup/ && ./Auth-Install.sh && cd -'" >> ~/.bashrc
 	. ~/.bashrc
 fi
 
@@ -159,7 +159,7 @@ then
 	echo "alias update present"
 else
 	echo "## UPDATE" >> ~/.bashrc
-	echo "alias update='cd /home/install/scripts/Setup/ && ./Auth-Install.sh update && cd -'" >> ~/.bashrc
+	echo "alias update='cd /WOTLKTrinityInstaller/scripts/Setup/ && ./Auth-Install.sh update && cd -'" >> ~/.bashrc
 	. ~/.bashrc
 fi
 
