@@ -66,22 +66,46 @@ echo "##########################################################"
 echo ""
 
 # Auth Database Setup
+echo "Checking if the 'auth' database exists..."
 if ! mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "SHOW DATABASES LIKE 'auth';" | grep -q "auth"; then
     mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "CREATE DATABASE auth DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;"
-    echo "Auth database created."
+    if [[ $? -eq 0 ]]; then
+        echo "Auth database created."
+    else
+        echo "Failed to create Auth database."
+        exit 1
+    fi
 else
     echo "Auth database already exists."
 fi
 
 # Create the auth user if it does not already exist
-if ! mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "SELECT User FROM mysql.user WHERE User = '$AUTH_DB_USER' AND Host = 'localhost';"; then
+echo "Checking if the auth user '$AUTH_DB_USER' exists..."
+if ! mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "SELECT User FROM mysql.user WHERE User = '$AUTH_DB_USER' AND Host = 'localhost';" | grep -q "$AUTH_DB_USER"; then
     mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "CREATE USER '$AUTH_DB_USER'@'localhost' IDENTIFIED BY '$AUTH_DB_PASS';"
-    echo "Auth DB user '$AUTH_DB_USER' created."
+    if [[ $? -eq 0 ]]; then
+        echo "Auth DB user '$AUTH_DB_USER' created."
+    else
+        echo "Failed to create Auth DB user '$AUTH_DB_USER'."
+        exit 1
+    fi
+else
+    echo "Auth DB user '$AUTH_DB_USER' already exists."
 fi
 
-mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "GRANT ALL PRIVILEGES ON auth.* TO '$AUTH_DB_USER'@'localhost';"
+# Grant privileges to the auth user
+echo "Granting privileges to '$AUTH_DB_USER' on the 'auth' database..."
+if mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "GRANT ALL PRIVILEGES ON auth.* TO '$AUTH_DB_USER'@'localhost';"; then
+    echo "Granted all privileges on 'auth' database to '$AUTH_DB_USER'."
+else
+    echo "Failed to grant privileges to '$AUTH_DB_USER'."
+    exit 1
+fi
+
+# Flush privileges
 mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "FLUSH PRIVILEGES;"
-echo "Setup Auth DB Account"
+echo "Flushed privileges."
+echo "Setup Auth DB Account completed."
 
 fi
 
