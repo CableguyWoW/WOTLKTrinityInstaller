@@ -65,7 +65,6 @@ cd /home/$SETUP_AUTH_USER/
 mkdir /home/$SETUP_AUTH_USER/
 mkdir /home/$SETUP_AUTH_USER/server/
 mkdir /home/$SETUP_AUTH_USER/logs/
-mkdir /home/$SETUP_AUTH_USER/logs/crashes/
 ## Source install
 git clone --single-branch --branch $AUTH_BRANCH "$CORE_REPO_URL" TrinityCore
 ## Build source
@@ -91,9 +90,9 @@ if [ -f "authserver.conf.dist" ]; then
 fi
 ## Changing Config values
 echo "Changing Config values"
-sed -i 's^LogsDir = ""^LogsDir = ""/home/'${SETUP_AUTH_USER}'/public/logs"^g' authserver.conf
+sed -i 's^LogsDir = ""^LogsDir = "/home/'${SETUP_AUTH_USER}'/server/logs"^g' authserver.conf
 sed -i "s/Updates.EnableDatabases = 0/Updates.EnableDatabases = 1/g" authserver.conf
-sed -i "s/127.0.0.1;3306;trinity;trinity;auth/${AUTH_DB_HOST};${AUTH_DB_PORT};${AUTH_DB_USER};${AUTH_DB_PASS};${AUTH_WORLD_DB_DB}/g" authserver.conf
+sed -i "s/127.0.0.1;3306;trinity;trinity;auth/${AUTH_DB_HOST};3306;${AUTH_DB_USER};${AUTH_DB_PASS};${AUTH_WORLD_DB_DB};${AUTH_DB_USER};/g" authserver.conf
 fi
 
 

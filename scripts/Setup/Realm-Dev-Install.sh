@@ -106,16 +106,16 @@ sed -i 's/WorldServerPort = 8085/WorldServerPort = '${SETUP_DEV_REALM_PORT}'/g' 
 sed -i 's/RealmZone = 1/RealmZone = '${REALM_ZONE}'/g' worldserver.conf
 sed -i 's/mmap.enablePathFinding = 0/mmap.enablePathFinding = 1/g' worldserver.conf
 ## Folders
-sed -i 's^LogsDir = ""^LogsDir = "/home/'${SETUP_REALM_USER}'/public/data"^g' worldserver.conf
-sed -i 's^DataDir = "."^DataDir = "/home/'${SETUP_REALM_USER}'/public/logs"^g' worldserver.conf
+sed -i 's^LogsDir = ""^LogsDir = "/home/'${SETUP_REALM_USER}'/server/data"^g' worldserver.conf
+sed -i 's^DataDir = "."^DataDir = "/home/'${SETUP_REALM_USER}'/server/logs"^g' worldserver.conf
 sed -i 's^BuildDirectory  = ""^BuildDirectory  = "/home/'${SETUP_REALM_USER}'/TrinityCore/build"^g' worldserver.conf
 sed -i 's^SourceDirectory  = ""^SourceDirectory  = "/home/'${SETUP_REALM_USER}'/TrinityCore/"^g' worldserver.conf
 ## LoginDatabaseInfo
-sed -i "s/127.0.0.1;3306;trinity;trinity;auth/${REALM_DB_HOST};${REALM_DB_PORT};${REALM_DB_USER};${REALM_DB_PASS};${AUTH_WORLD_DB_DB}/g" worldserver.conf
+sed -i "s/127.0.0.1;3306;trinity;trinity;auth/${REALM_DB_HOST};3306;${REALM_DB_USER};${REALM_DB_PASS};${AUTH_WORLD_DB_DB}/g" worldserver.conf
 ## WorldDatabaseInfo
-sed -i "s/127.0.0.1;3306;trinity;trinity;world/${REALM_DB_HOST};${REALM_DB_PORT};${REALM_DB_USER};${REALM_DB_PASS};${REALM_DB_USER}_world/g" worldserver.conf
+sed -i "s/127.0.0.1;3306;trinity;trinity;world/${REALM_DB_HOST};3306;${REALM_DB_USER};${REALM_DB_PASS};${REALM_DB_USER}_world/g" worldserver.conf
 ## CharacterDatabaseInfo
-sed -i "s/127.0.0.1;3306;trinity;trinity;characters/${REALM_DB_HOST};${REALM_DB_PORT};${REALM_DB_USER};${REALM_DB_PASS};${REALM_DB_USER}_character/g" worldserver.conf
+sed -i "s/127.0.0.1;3306;trinity;trinity;characters/${REALM_DB_HOST};3306;${REALM_DB_USER};${REALM_DB_PASS};${REALM_DB_USER}_character/g" worldserver.conf
 fi
 
 
