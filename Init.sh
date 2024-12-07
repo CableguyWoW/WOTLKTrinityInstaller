@@ -69,14 +69,27 @@ fi
 if [ "$1" = "all" ] || [ "$1" = "$NUM" ]; then
 echo ""
 echo "##########################################################"
-echo "## $NUM.Install Mysql Apt"
+echo "## $NUM. Install MySQL Apt"
 echo "##########################################################"
 echo ""
-wget https://dev.mysql.com/get/mysql-apt-config_0.8.29-1_all.deb -O /tmp/mysql-apt-config_all.deb
-DEBIAN_FRONTEND=noninteractive dpkg -i /tmp/mysql-apt-config_all.deb
-sudo apt update -y
-fi
 
+# Define the path for the MySQL APT configuration file
+MYSQL_APT_CONFIG="/root/mysql-apt-config_all.deb"
+
+# Check if the file already exists
+if [ ! -f "$MYSQL_APT_CONFIG" ]; then
+    echo "Downloading MySQL APT Config..."
+    wget https://dev.mysql.com/get/mysql-apt-config_0.8.29-1_all.deb -O "$MYSQL_APT_CONFIG"
+    
+    # Install the downloaded package
+    DEBIAN_FRONTEND=noninteractive dpkg -i "$MYSQL_APT_CONFIG"
+    
+    # Update package list
+    sudo apt update -y
+else
+    echo "MySQL APT Config already downloaded at $MYSQL_APT_CONFIG. Skipping download."
+fi
+fi
 
 ((NUM++))
 if [ "$1" = "all" ] || [ "$1" = "$NUM" ]; then
