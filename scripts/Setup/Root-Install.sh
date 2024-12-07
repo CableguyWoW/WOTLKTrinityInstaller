@@ -123,18 +123,34 @@ echo ""
 
 # Remote DB User Setup
 if [ "$REMOTE_DB_SETUP" == "true" ]; then
-    # Create remote user if it doesn't exist
-    if ! mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "SELECT User FROM mysql.user WHERE User = '$REMOTE_DB_USER' AND Host = '$REMOTE_DB_HOST';"; then
+    echo "Checking if remote DB user '$REMOTE_DB_USER' exists at host '$REMOTE_DB_HOST'..."
+    
+    # Check if the remote user exists
+    if ! mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "SELECT User FROM mysql.user WHERE User = '$REMOTE_DB_USER' AND Host = '$REMOTE_DB_HOST';" | grep -q "$REMOTE_DB_USER"; then
         mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "CREATE USER '$REMOTE_DB_USER'@'$REMOTE_DB_HOST' IDENTIFIED BY '$REMOTE_DB_PASS';"
-        echo "Remote DB user '$REMOTE_DB_USER' created."
+        if [[ $? -eq 0 ]]; then
+            echo "Remote DB user '$REMOTE_DB_USER' created."
+        else
+            echo "Failed to create remote DB user '$REMOTE_DB_USER'."
+            exit 1
+        fi
+    else
+        echo "Remote DB user '$REMOTE_DB_USER' already exists."
     fi
 
     # Grant necessary permissions
     mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "GRANT ALL PRIVILEGES ON *.* TO '$REMOTE_DB_USER'@'$REMOTE_DB_HOST' WITH GRANT OPTION;"
-    echo "Setup Remote DB Account"
+    if [[ $? -eq 0 ]]; then
+        echo "Granted all privileges to '$REMOTE_DB_USER'@'$REMOTE_DB_HOST'."
+    else
+        echo "Failed to grant privileges to '$REMOTE_DB_USER'@'$REMOTE_DB_HOST'."
+        exit 1
+    fi
+    
+    # Flush privileges
+    mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "FLUSH PRIVILEGES;"
+    echo "Flushed privileges."
 fi
-
-mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "FLUSH PRIVILEGES;"
 fi
 
 
