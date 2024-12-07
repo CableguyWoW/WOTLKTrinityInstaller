@@ -33,7 +33,8 @@ echo "- [startrealm debug] : Start Realm screen under GDB"
 echo "- [startrealm release] : Start Realm screen under release"
 echo "- [stoprealm] : Stops all screen sessions on the user"
 echo ""
-((NUM++)); echo "- [$NUM] : Close Worldserver" 
+((NUM++)); echo "- [$NUM] : Close Worldserver"
+((NUM++)); echo "- [$NUM] : Setup MySQL Database & Users"
 ((NUM++)); echo "- [$NUM] : Pull and Setup Source"
 ((NUM++)); echo "- [$NUM] : Setup Worldserver Config"
 ((NUM++)); echo "- [$NUM] : Pull and Setup Database"
@@ -62,6 +63,35 @@ echo "## $NUM.Closing Worldserver"
 echo "##########################################################"
 echo ""
 screen -XS $SETUP_REALM_USER kill
+fi
+
+
+((NUM++))
+if [ "$1" = "all" ] || [ "$1" = "$NUM" ]; then
+echo ""
+echo "##########################################################"
+echo "## $NUM.Setup MySQL Database & Users"
+echo "##########################################################"
+echo ""
+
+# Auth Database Setup
+if ! mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "SHOW DATABASES LIKE 'auth';" | grep -q "auth"; then
+    mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "CREATE DATABASE auth DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;"
+    echo "Auth database created."
+else
+    echo "Auth database already exists."
+fi
+
+# Create the auth user if it does not already exist
+if ! mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "SELECT User FROM mysql.user WHERE User = '$AUTH_DB_USER' AND Host = 'localhost';"; then
+    mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "CREATE USER '$AUTH_DB_USER'@'localhost' IDENTIFIED BY '$AUTH_DB_PASS';"
+    echo "Auth DB user '$AUTH_DB_USER' created."
+fi
+
+mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "GRANT ALL PRIVILEGES ON auth.* TO '$AUTH_DB_USER'@'localhost';"
+mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "FLUSH PRIVILEGES;"
+echo "Setup Auth DB Account"
+
 fi
 
 
@@ -110,7 +140,7 @@ sed -i 's^DataDir = "."^DataDir = "/home/'${SETUP_REALM_USER}'/server/logs"^g' w
 sed -i 's^BuildDirectory  = ""^BuildDirectory  = "/home/'${SETUP_REALM_USER}'/TrinityCore/build"^g' worldserver.conf
 sed -i 's^SourceDirectory  = ""^SourceDirectory  = "/home/'${SETUP_REALM_USER}'/TrinityCore/"^g' worldserver.conf
 ## LoginDatabaseInfo
-sed -i "s/127.0.0.1;3306;trinity;trinity;auth/${REALM_DB_HOST};3306;${REALM_DB_USER};${REALM_DB_PASS};${AUTH_DB_USER}/g" worldserver.conf
+sed -i "s/127.0.0.1;3306;trinity;trinity;auth/${AUTH_DB_HOST};3306;${AUTH_DB_USER};${AUTH_DB_PASS};${AUTH_DB_USER};/g" worldserver.conf
 ## WorldDatabaseInfo
 sed -i "s/127.0.0.1;3306;trinity;trinity;world/${REALM_DB_HOST};3306;${REALM_DB_USER};${REALM_DB_PASS};${REALM_DB_USER}_world/g" worldserver.conf
 ## CharacterDatabaseInfo

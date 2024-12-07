@@ -33,6 +33,7 @@ echo "- [all] : Run Full Script"
 echo "- [update] : Update Source and DB"
 echo ""
 ((NUM++)); echo "- [$NUM] : Close Authserver"
+((NUM++)); echo "- [$NUM] : Setup MySQL Database & Users"
 ((NUM++)); echo "- [$NUM] : Pull and Setup Source"
 ((NUM++)); echo "- [$NUM] : Setup Authserver Config"
 ((NUM++)); echo "- [$NUM] : Setup Restarter"
@@ -55,6 +56,42 @@ echo ""
 screen -XS $SETUP_AUTH_USER kill
 fi
 
+
+((NUM++))
+if [ "$1" = "all" ] || [ "$1" = "$NUM" ]; then
+echo ""
+echo "##########################################################"
+echo "## $NUM.Setup MySQL Database & Users"
+echo "##########################################################"
+echo ""
+
+# World Database Setup
+if ! mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "SHOW DATABASES LIKE '${REALM_DB_USER}_world';" | grep -q "${REALM_DB_USER}_world"; then
+    mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "CREATE DATABASE ${REALM_DB_USER}_world DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;"
+    echo "Database ${REALM_DB_USER}_world created."
+else
+    echo "Database ${REALM_DB_USER}_world already exists."
+fi
+
+if ! mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "SHOW DATABASES LIKE '${REALM_DB_USER}_character';" | grep -q "${REALM_DB_USER}_character"; then
+    mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "CREATE DATABASE ${REALM_DB_USER}_character DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;"
+    echo "Database ${REALM_DB_USER}_character created."
+else
+    echo "Database ${REALM_DB_USER}_character already exists."
+fi
+
+# Create the realm user if it does not already exist
+if ! mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "SELECT User FROM mysql.user WHERE User = '${REALM_DB_USER}' AND Host = 'localhost';"; then
+    mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "CREATE USER '${REALM_DB_USER}'@'localhost' IDENTIFIED BY '$REALM_DB_PASS';"
+    echo "Realm DB user '${REALM_DB_USER}' created."
+fi
+
+mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "GRANT ALL PRIVILEGES ON ${REALM_DB_USER}_world.* TO '${REALM_DB_USER}'@'localhost';"
+mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "GRANT ALL PRIVILEGES ON ${REALM_DB_USER}_character.* TO '${REALM_DB_USER}'@'localhost';"
+mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "FLUSH PRIVILEGES;"
+echo "Setup World DB Account"
+
+fi
 
 ((NUM++))
 if [ "$1" = "all" ] || [ "$1" = "update" ] || [ "$1" = "$NUM" ]; then
