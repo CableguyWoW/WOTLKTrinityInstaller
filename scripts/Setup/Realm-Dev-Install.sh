@@ -323,7 +323,7 @@ echo ""
 if [ $SETUP_REALMLIST == "true" ]; then
 # Get the external IP address
 EXTERNAL_IP=$(curl -s http://ifconfig.me)
-mysql --host=$REALM_DB_HOST --port=$REALM_DB_PORT -h $AUTH_DB_HOST -u $AUTH_DB_USER -p$AUTH_DB_PASS << EOF
+mysql --host=$REALM_DB_HOST -h $AUTH_DB_HOST -u $AUTH_DB_USER -p$AUTH_DB_PASS << EOF
 use auth
 DELETE from realmlist where id = $REALM_ID;
 REPLACE INTO realmlist VALUES ('$REALM_ID', '$REALM_NAME', '$EXTERNAL_IP', '$EXTERNAL_IP', '255.255.255.0', '$SETUP_DEV_REALM_PORT', '0', '0', '53', '2', '0', '12340');
@@ -350,8 +350,8 @@ sudo chmod +x /home/$SETUP_REALM_USER/server/scripts/Restarter/World/GDB/restart
 sudo chmod +x /home/$SETUP_REALM_USER/server/scripts/Restarter/World/GDB/gdbcommands
 sudo chmod +x /home/$SETUP_REALM_USER/server/scripts/Restarter/World/Normal/start.sh
 sudo chmod +x /home/$SETUP_REALM_USER/server/scripts/Restarter/World/Normal/restarter_world.sh
-sed -i "s/realmname/$SETUP_REALM_USER/g" /home/$SETUP_REALM_USER/server/scripts/Restarter/World/GDB/start_gdb.sh
-sed -i "s/realmname/$SETUP_REALM_USER/g" /home/$SETUP_REALM_USER/server/scripts/Restarter/World/Normal/start.sh
+sudo sed -i "s/realmname/$SETUP_REALM_USER/g" /home/$SETUP_REALM_USER/server/scripts/Restarter/World/GDB/start_gdb.sh
+sudo sed -i "s/realmname/$SETUP_REALM_USER/g" /home/$SETUP_REALM_USER/server/scripts/Restarter/World/Normal/start.sh
 fi
 
 
@@ -362,10 +362,10 @@ echo "##########################################################"
 echo "## $NUM.Setup Misc Scripts"
 echo "##########################################################"
 echo ""
-cp -r -u /home/$INSTALL_PATH/scripts/Clean-Logs.sh /home/$SETUP_REALM_USER/server/scripts/
+cp -r -u /WOTLKTrinityInstaller/scripts/Setup/Clean-Logs.sh /home/$SETUP_REALM_USER/server/scripts/
 chmod +x  /home/$SETUP_REALM_USER/server/scripts/Clean-Logs.sh
 cd /home/$SETUP_REALM_USER/server/scripts/
-sed -i "s^USER^${SETUP_REALM_USER}^g" Clean-Logs.sh
+sudo sed -i "s^USER^${SETUP_REALM_USER}^g" Clean-Logs.sh
 fi
 
 ((NUM++))
