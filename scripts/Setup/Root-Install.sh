@@ -110,7 +110,6 @@ sudo sed -i '/^skip-networking/d' "$MY_CNF"
 # Optional: Restart MySQL again after user adjustments
 service mysql restart
 fi
-fi
 
 
 ((NUM++))
