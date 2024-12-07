@@ -139,7 +139,7 @@ mv worldserver.conf.dist worldserver.conf
 echo "Changing Config values"
 ## Misc Edits
 sed -i 's/RealmID = 1/RealmID = '${REALM_ID}'/g' worldserver.conf
-sed -i 's/WorldServerPort = 8085/WorldServerPort = '${SETUP_DEV_REALM_PORT}'/g' worldserver.conf
+sed -i 's/WorldServerPort = 8085/WorldServerPort = '${SETUP_REALM_PORT}'/g' worldserver.conf
 sed -i 's/RealmZone = 1/RealmZone = '${REALM_ZONE}'/g' worldserver.conf
 sed -i 's/mmap.enablePathFinding = 0/mmap.enablePathFinding = 1/g' worldserver.conf
 ## Folders
