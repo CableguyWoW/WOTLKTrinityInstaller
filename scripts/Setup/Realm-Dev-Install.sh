@@ -110,7 +110,7 @@ sed -i 's^DataDir = "."^DataDir = "/home/'${SETUP_REALM_USER}'/server/logs"^g' w
 sed -i 's^BuildDirectory  = ""^BuildDirectory  = "/home/'${SETUP_REALM_USER}'/TrinityCore/build"^g' worldserver.conf
 sed -i 's^SourceDirectory  = ""^SourceDirectory  = "/home/'${SETUP_REALM_USER}'/TrinityCore/"^g' worldserver.conf
 ## LoginDatabaseInfo
-sed -i "s/127.0.0.1;3306;trinity;trinity;auth/${REALM_DB_HOST};3306;${REALM_DB_USER};${REALM_DB_PASS};${AUTH_WORLD_DB_DB}/g" worldserver.conf
+sed -i "s/127.0.0.1;3306;trinity;trinity;auth/${REALM_DB_HOST};3306;${REALM_DB_USER};${REALM_DB_PASS};${AUTH_DB_USER}/g" worldserver.conf
 ## WorldDatabaseInfo
 sed -i "s/127.0.0.1;3306;trinity;trinity;world/${REALM_DB_HOST};3306;${REALM_DB_USER};${REALM_DB_PASS};${REALM_DB_USER}_world/g" worldserver.conf
 ## CharacterDatabaseInfo
