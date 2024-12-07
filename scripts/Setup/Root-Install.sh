@@ -126,8 +126,8 @@ mysql -u "$ROOT_USER" -p"$ROOT_PASS" -D mysql -e "ALTER USER '$ROOT_USER'@'local
 
 # Remote DB User Setup
 if [ "$REMOTE_DB_SETUP" == "true" ]; then
-    # Check if remote user exists before creating
-    if ! mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "SELECT User FROM mysql.user WHERE User = '$REMOTE_DB_USER' AND Host = '$REMOTE_DB_HOST'"; then
+    # Create remote user if it doesn't exist
+    if ! mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "SELECT User FROM mysql.user WHERE User = '$REMOTE_DB_USER' AND Host = '$REMOTE_DB_HOST';"; then
         mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "CREATE USER '$REMOTE_DB_USER'@'$REMOTE_DB_HOST' IDENTIFIED BY '$REMOTE_DB_PASS';"
         echo "Remote DB user '$REMOTE_DB_USER' created."
     fi
@@ -138,8 +138,19 @@ if [ "$REMOTE_DB_SETUP" == "true" ]; then
 fi
 
 # World Database Setup
-[[ ! -d "$REALM_DB_USER"_world ]] && mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "CREATE DATABASE ${REALM_DB_USER}_world DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;"
-[[ ! -d "$REALM_DB_USER"_character ]] && mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "CREATE DATABASE ${REALM_DB_USER}_character DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;"
+if ! mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "SHOW DATABASES LIKE '${REALM_DB_USER}_world';" | grep -q "${REALM_DB_USER}_world"; then
+    mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "CREATE DATABASE ${REALM_DB_USER}_world DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;"
+    echo "Database ${REALM_DB_USER}_world created."
+else
+    echo "Database ${REALM_DB_USER}_world already exists."
+fi
+
+if ! mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "SHOW DATABASES LIKE '${REALM_DB_USER}_character';" | grep -q "${REALM_DB_USER}_character"; then
+    mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "CREATE DATABASE ${REALM_DB_USER}_character DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;"
+    echo "Database ${REALM_DB_USER}_character created."
+else
+    echo "Database ${REALM_DB_USER}_character already exists."
+fi
 
 # Create the realm user if it does not already exist
 if ! mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "SELECT User FROM mysql.user WHERE User = '${REALM_DB_USER}' AND Host = 'localhost';"; then
@@ -152,9 +163,11 @@ mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "GRANT ALL PRIVILEGES ON ${REALM_DB_USER
 echo "Setup World DB Account"
 
 # Auth Database Setup
-if ! mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "SHOW DATABASES LIKE 'auth';"; then
+if ! mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "SHOW DATABASES LIKE 'auth';" | grep -q "auth"; then
     mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "CREATE DATABASE auth DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;"
     echo "Auth database created."
+else
+    echo "Auth database already exists."
 fi
 
 # Create the auth user if it does not already exist
@@ -168,6 +181,7 @@ echo "Setup Auth DB Account"
 
 mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "FLUSH PRIVILEGES;"
 fi
+
 
 ((NUM++))
 if [ "$1" = "all" ] || [ "$1" = "$NUM" ]; then
