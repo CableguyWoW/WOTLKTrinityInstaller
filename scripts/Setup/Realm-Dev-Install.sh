@@ -460,8 +460,8 @@ sudo sed -i "s/realmname/$SETUP_REALM_USER/g" /home/$SETUP_REALM_USER/server/scr
 fi
 
 
-if [ "$1" = "all" ] || [ "$1" = "$NUM" ]; then
 ((NUM++))
+if [ "$1" = "all" ] || [ "$1" = "$NUM" ]; then
 echo ""
 echo "##########################################################"
 echo "## $NUM.Setup Misc Scripts"
