@@ -62,7 +62,7 @@ echo "##########################################################"
 echo "## $NUM.Closing Worldserver"
 echo "##########################################################"
 echo ""
-screen -XS $SETUP_REALM_USER kill
+screen -ls | grep "$SETUP_REALM_USER" | awk '{print $1}' | xargs -r screen -X -S kill
 fi
 
 

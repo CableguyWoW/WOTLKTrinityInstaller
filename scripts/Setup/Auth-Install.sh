@@ -53,7 +53,7 @@ echo "##########################################################"
 echo "## $NUM.Closing Authserver"
 echo "##########################################################"
 echo ""
-screen -XS $SETUP_AUTH_USER kill
+screen -ls | grep "$SETUP_AUTH_USER" | awk '{print $1}' | xargs -r screen -X -S kill
 fi
 
 
