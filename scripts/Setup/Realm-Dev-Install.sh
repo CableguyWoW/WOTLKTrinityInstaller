@@ -551,47 +551,7 @@ fi
 if grep -Fxq "## STOP REALM" ~/.bashrc
 then
 	echo "alias update present"
-else# Auth Database Setup
-echo "Checking if the 'auth' database exists..."
-if ! mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "SHOW DATABASES LIKE 'auth';" | grep -q "auth"; then
-    mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "CREATE DATABASE auth DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;"
-    if [[ $? -eq 0 ]]; then
-        echo "Auth database created."
-    else
-        echo "Failed to create Auth database."
-        exit 1
-    fi
 else
-    echo "Auth database already exists."
-fi
-
-# Create the auth user if it does not already exist
-echo "Checking if the auth user '$AUTH_DB_USER' exists..."
-if ! mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "SELECT User FROM mysql.user WHERE User = '$AUTH_DB_USER' AND Host = 'localhost';" | grep -q "$AUTH_DB_USER"; then
-    mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "CREATE USER '$AUTH_DB_USER'@'localhost' IDENTIFIED BY '$AUTH_DB_PASS';"
-    if [[ $? -eq 0 ]]; then
-        echo "Auth DB user '$AUTH_DB_USER' created."
-    else
-        echo "Failed to create Auth DB user '$AUTH_DB_USER'."
-        exit 1
-    fi
-else
-    echo "Auth DB user '$AUTH_DB_USER' already exists."
-fi
-
-# Grant privileges to the auth user
-echo "Granting privileges to '$AUTH_DB_USER' on the 'auth' database..."
-if mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "GRANT ALL PRIVILEGES ON auth.* TO '$AUTH_DB_USER'@'localhost';"; then
-    echo "Granted all privileges on 'auth' database to '$AUTH_DB_USER'."
-else
-    echo "Failed to grant privileges to '$AUTH_DB_USER'."
-    exit 1
-fi
-
-# Flush privileges
-mysql -u "$ROOT_USER" -p"$ROOT_PASS" -e "FLUSH PRIVILEGES;"
-echo "Flushed privileges."
-echo "Setup Auth DB Account completed."
 	echo "## STOP REALM" >> ~/.bashrc
 	echo "alias stoprealm='killall screen'" >> ~/.bashrc
 	. ~/.bashrc
@@ -631,7 +591,6 @@ echo "su - $SETUP_REALM_USER -c 'screen -r $SETUP_REALM_USER'"
 echo ""
 echo -e "\e[32m↓↓↓ To access the authserver - Run the following ↓↓↓\e[0m"
 echo ""
-echo "TIP - To exit the screen press ALT + A + D"
 echo "su - $SETUP_AUTH_USER -c 'screen -r $SETUP_AUTH_USER'"
 echo ""
 
