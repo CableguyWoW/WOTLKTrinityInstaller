@@ -46,7 +46,6 @@ The following tasks pertain to the Auth server setup:
 - **Pull and Setup Source**: Download and configure the source code for the Auth server.
 - **Setup Authserver Config**: Configure the settings for the Auth server.
 - **Setup Restarter**: Ensure the Auth server can automatically restart if it crashes.
-- **Setup Backup Folder**: Create a designated folder to store backups.
 - **Setup Crontab**: Schedule automated tasks using crontab for maintenance and backups.
 - **Setup Alias**: Create command aliases for easier access to commonly used commands.
 - **Start Authserver**: Launch the Auth server.

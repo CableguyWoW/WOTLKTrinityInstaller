@@ -37,13 +37,13 @@ echo ""
 ((NUM++)); echo "- [$NUM] : Pull and Setup Source"
 ((NUM++)); echo "- [$NUM] : Setup Authserver Config"
 ((NUM++)); echo "- [$NUM] : Setup Restarter"
-((NUM++)); echo "- [$NUM] : Setup Backup Folder"
 ((NUM++)); echo "- [$NUM] : Setup Crontab"
 ((NUM++)); echo "- [$NUM] : Setup Alias"
 ((NUM++)); echo "- [$NUM] : Start Authserver"
 echo ""
 
 else
+
 
 NUM=0
 ((NUM++))
