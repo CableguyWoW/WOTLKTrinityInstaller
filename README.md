@@ -1,6 +1,6 @@
 # WOTLKTrinityInstaller
 
-**WOTLKTrinityInstaller** is tool that helps you set up **TrinityCore 3.3.5a** servers on **Debian 12**. With this installer, you can quickly configure your server environment so you can focus on modding your server and .
+**WOTLKTrinityInstaller** is tool that helps you set up **TrinityCore 3.3.5a** servers on **Debian 12**. With this installer, you can quickly configure your server environment so you can focus on your custom creations.
 
 ## Feature Highlights
 
@@ -16,7 +16,8 @@
 To install **WOTLKTrinityInstaller**, run the following commands as the root user:
 
 ```bash
-cd / && rm -rf WOTLKTrinityInstaller && apt-get install git sudo -y && [ -d "WOTLKTrinityInstaller] || git clone https://github.com/CableguyWoW/WOTLKTrinityInstaller/ WOTLKTrinityInstaller && cd WOTLKTrinityInstaller && chmod +x Init.sh && ./Init.sh all```
+cd / && rm -rf WOTLKTrinityInstaller && apt-get install git sudo -y && [ -d "WOTLKTrinityInstaller] || git clone https://github.com/CableguyWoW/WOTLKTrinityInstaller/ WOTLKTrinityInstaller && cd WOTLKTrinityInstaller && chmod +x Init.sh && ./Init.sh all
+```
 
 
 ## Script Functions
