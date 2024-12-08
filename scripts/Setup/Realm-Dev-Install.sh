@@ -515,8 +515,8 @@ echo ""
 HEADER="#### CUSTOM ALIAS"
 FOOTER="#### END CUSTOM ALIAS"
 
-# Backup the current .bashrc
-cp ~/.bashrc ~/.bashrc.bak
+# Remove content between the header and footer, including the markers
+sed -i "/$HEADER/,/$FOOTER/d" ~/.bashrc
 
 # Add header and footer if they are not present
 if ! grep -Fxq "$HEADER" ~/.bashrc; then
@@ -526,14 +526,6 @@ else
     echo "header present"
 fi
 
-if ! grep -Fxq "$FOOTER" ~/.bashrc; then
-    echo -e "\n$FOOTER\n" >> ~/.bashrc
-    echo "footer added"
-fi
-
-# Remove content between the header and footer, keeping the markers
-sed -i "/$HEADER/,/$FOOTER/{//!d;}" ~/.bashrc
-
 # Add new commands between the header and footer
 echo -e "\n## COMMANDS" >> ~/.bashrc
 echo "alias commands='cd /WOTLKTrinityInstaller/scripts/Setup/ && ./Auth-Install.sh && cd -'" >> ~/.bashrc
@@ -542,6 +534,11 @@ echo -e "\n## UPDATE" >> ~/.bashrc
 echo "alias update='cd /WOTLKTrinityInstaller/scripts/Setup/ && ./Auth-Install.sh update && cd -'" >> ~/.bashrc
 
 echo "Added script alias to bashrc"
+
+if ! grep -Fxq "$FOOTER" ~/.bashrc; then
+    echo -e "\n$FOOTER\n" >> ~/.bashrc
+    echo "footer added"
+fi
 
 # Source .bashrc to apply changes
 . ~/.bashrc
