@@ -518,38 +518,32 @@ FOOTER="#### END CUSTOM ALIAS"
 # Backup the current .bashrc
 cp ~/.bashrc ~/.bashrc.bak
 
-# Add header and footer if not present
+# Add header and footer if they are not present
 if ! grep -Fxq "$HEADER" ~/.bashrc; then
     echo -e "\n$HEADER\n" >> ~/.bashrc
+    echo "header added"
+else
+    echo "header present"
 fi
 
 if ! grep -Fxq "$FOOTER" ~/.bashrc; then
     echo -e "\n$FOOTER\n" >> ~/.bashrc
+    echo "footer added"
 fi
 
-# Remove the contents between the header and footer, if they exist
+# Remove content between the header and footer, keeping the markers
 sed -i "/$HEADER/,/$FOOTER/{//!d;}" ~/.bashrc
 
-# Add your new content between the header and footer
-echo "## COMMANDS" >> ~/.bashrc
-echo "alias commands='cd /home/install/scripts/Setup/ && ./Realm-Dev-Install.sh && cd -'" >> ~/.bashrc
+# Add new commands between the header and footer
+echo -e "\n## COMMANDS" >> ~/.bashrc
+echo "alias commands='cd /WOTLKTrinityInstaller/scripts/Setup/ && ./Auth-Install.sh && cd -'" >> ~/.bashrc
 
-echo "## START REALM" >> ~/.bashrc
-echo "startrealm() {" >> ~/.bashrc
-echo "    if [ \"\$1\" = \"debug\" ]; then " >> ~/.bashrc
-echo "        cd /home/dev/server/scripts/Restarter/World/GDB/ && ./start_gdb.sh && cd - " >> ~/.bashrc
-echo "    fi" >> ~/.bashrc
-echo "    if [ \"\$1\" = \"release\" ]; then" >> ~/.bashrc
-echo "        cd /home/dev/server/scripts/Restarter/World/Normal/ && ./start.sh && cd -" >> ~/.bashrc
-echo "    fi" >> ~/.bashrc
-echo "}" >> ~/.bashrc
-
-echo "## STOP REALM" >> ~/.bashrc
-echo "alias stoprealm='killall screen'" >> ~/.bashrc
+echo -e "\n## UPDATE" >> ~/.bashrc
+echo "alias update='cd /WOTLKTrinityInstaller/scripts/Setup/ && ./Auth-Install.sh update && cd -'" >> ~/.bashrc
 
 echo "Added script alias to bashrc"
 
-# Source the .bashrc to apply changes
+# Source .bashrc to apply changes
 . ~/.bashrc
 fi
 
