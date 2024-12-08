@@ -186,39 +186,41 @@ fi
 if [ "$1" = "all" ] || [ "$1" = "$NUM" ]; then
 echo ""
 echo "##########################################################"
-echo "## $NUM.Setup Script Alias"
+echo "## $NUM. Setup Script Alias"
 echo "##########################################################"
 echo ""
-if grep -Fxq "#### CUSTOM ALIAS" ~/.bashrc
-then
-	echo "header present"
+
+HEADER="#### CUSTOM ALIAS"
+FOOTER="#### END CUSTOM ALIAS"
+
+# Backup the current .bashrc
+cp ~/.bashrc ~/.bashrc.bak
+
+# Add header and footer if not present
+if ! grep -Fxq "$HEADER" ~/.bashrc; then
+    echo -e "\n$HEADER\n" >> ~/.bashrc
+    echo "header added"
 else
-	echo "" >> ~/.bashrc
-	echo "#### CUSTOM ALIAS" >> ~/.bashrc
-	echo "" >> ~/.bashrc
-	. ~/.bashrc
-	echo "header added"
+    echo "header present"
 fi
 
-if grep -Fxq "## COMMANDS" ~/.bashrc
-then
-	echo "alias commands present"
-else
-	echo "## COMMANDS" >> ~/.bashrc
-	echo "alias commands='cd /WOTLKTrinityInstaller/scripts/Setup/ && ./Auth-Install.sh && cd -'" >> ~/.bashrc
-	. ~/.bashrc
+if ! grep -Fxq "$FOOTER" ~/.bashrc; then
+    echo -e "\n$FOOTER\n" >> ~/.bashrc
 fi
 
-if grep -Fxq "## UPDATE" ~/.bashrc
-then
-	echo "alias update present"
-else
-	echo "## UPDATE" >> ~/.bashrc
-	echo "alias update='cd /WOTLKTrinityInstaller/scripts/Setup/ && ./Auth-Install.sh update && cd -'" >> ~/.bashrc
-	. ~/.bashrc
-fi
+# Remove content between header and footer if they exist
+sed -i "/$HEADER/,/$FOOTER/{//!d;}" ~/.bashrc
+
+# Add new content between the header and footer
+echo "## COMMANDS" >> ~/.bashrc
+echo "alias commands='cd /WOTLKTrinityInstaller/scripts/Setup/ && ./Auth-Install.sh && cd -'" >> ~/.bashrc
+
+echo "## UPDATE" >> ~/.bashrc
+echo "alias update='cd /WOTLKTrinityInstaller/scripts/Setup/ && ./Auth-Install.sh update && cd -'" >> ~/.bashrc
 
 echo "Added script alias to bashrc"
+
+# Source .bashrc to apply changes
 . ~/.bashrc
 fi
 

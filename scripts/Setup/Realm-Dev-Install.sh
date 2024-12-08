@@ -508,56 +508,49 @@ fi
 if [ "$1" = "all" ] || [ "$1" = "$NUM" ]; then
 echo ""
 echo "##########################################################"
-echo "## $NUM.Setup Script Alias"
+echo "## $NUM. Setup Script Alias"
 echo "##########################################################"
 echo ""
-if grep -Fxq "#### CUSTOM ALIAS" ~/.bashrc
-then
-	echo "header present"
-else
-	echo "" >> ~/.bashrc
-	echo "#### CUSTOM ALIAS" >> ~/.bashrc
-	echo "" >> ~/.bashrc
-	. ~/.bashrc
-	echo "header added"
+
+HEADER="#### CUSTOM ALIAS"
+FOOTER="#### END CUSTOM ALIAS"
+
+# Backup the current .bashrc
+cp ~/.bashrc ~/.bashrc.bak
+
+# Add header and footer if not present
+if ! grep -Fxq "$HEADER" ~/.bashrc; then
+    echo -e "\n$HEADER\n" >> ~/.bashrc
 fi
 
-if grep -Fxq "## COMMANDS" ~/.bashrc
-then
-	echo "alias commands present"
-else
-	echo "## COMMANDS" >> ~/.bashrc
-	echo "alias commands='cd /home/install/scripts/Setup/ && ./Realm-Dev-Install.sh && cd -'" >> ~/.bashrc
-	. ~/.bashrc
+if ! grep -Fxq "$FOOTER" ~/.bashrc; then
+    echo -e "\n$FOOTER\n" >> ~/.bashrc
 fi
 
-if grep -Fxq "## START REALM" ~/.bashrc
-then
-	echo "alias startrealm present"
-else
-	echo "## START REALM" >> ~/.bashrc
-	echo "startrealm()" >> ~/.bashrc
-	echo "{" >> ~/.bashrc
-	echo "if [ "$1" = "debug" ]; then " >> ~/.bashrc
-	echo "cd /home/dev/server/scripts/Restarter/World/GDB/ && ./start_gdb.sh && cd - " >> ~/.bashrc
-	echo "fi" >> ~/.bashrc
-	echo "if [ "$1" = "release" ]; then" >> ~/.bashrc
-	echo "cd /home/dev/server/scripts/Restarter/World/Normal/ && ./start.sh && cd -" >> ~/.bashrc
-	echo "fi" >> ~/.bashrc
-	echo "}" >> ~/.bashrc
-	. ~/.bashrc
-fi
+# Remove the contents between the header and footer, if they exist
+sed -i "/$HEADER/,/$FOOTER/{//!d;}" ~/.bashrc
 
-if grep -Fxq "## STOP REALM" ~/.bashrc
-then
-	echo "alias update present"
-else
-	echo "## STOP REALM" >> ~/.bashrc
-	echo "alias stoprealm='killall screen'" >> ~/.bashrc
-	. ~/.bashrc
-fi
+# Add your new content between the header and footer
+echo "## COMMANDS" >> ~/.bashrc
+echo "alias commands='cd /home/install/scripts/Setup/ && ./Realm-Dev-Install.sh && cd -'" >> ~/.bashrc
+
+echo "## START REALM" >> ~/.bashrc
+echo "startrealm() {" >> ~/.bashrc
+echo "    if [ \"\$1\" = \"debug\" ]; then " >> ~/.bashrc
+echo "        cd /home/dev/server/scripts/Restarter/World/GDB/ && ./start_gdb.sh && cd - " >> ~/.bashrc
+echo "    fi" >> ~/.bashrc
+echo "    if [ \"\$1\" = \"release\" ]; then" >> ~/.bashrc
+echo "        cd /home/dev/server/scripts/Restarter/World/Normal/ && ./start.sh && cd -" >> ~/.bashrc
+echo "    fi" >> ~/.bashrc
+echo "}" >> ~/.bashrc
+
+echo "## STOP REALM" >> ~/.bashrc
+echo "alias stoprealm='killall screen'" >> ~/.bashrc
 
 echo "Added script alias to bashrc"
+
+# Source the .bashrc to apply changes
+. ~/.bashrc
 fi
 
 
