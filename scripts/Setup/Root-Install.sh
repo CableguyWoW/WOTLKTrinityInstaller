@@ -53,8 +53,10 @@ if [ "$SETUP_TSWOW" = "true" ]; then
     nvm install 20.18.0
     nvm use 20.18.0
     # Cmake
-    wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | sudo tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null
-    sudo apt-add-repository 'deb https://apt.kitware.com/debian/ bookworm main'
+wget -O /etc/apt/trusted.gpg/kitware-gpg.key https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor > /etc/apt/trusted.gpg/kitware-gpg.key
+sudo tee /etc/apt/sources.list.d/bookworm.list <<EOF
+deb [trusted=yes] https://apt.kitware.com/debian bookworm main
+EOF
     sudo apt update
     sudo apt install cmake
 fi
