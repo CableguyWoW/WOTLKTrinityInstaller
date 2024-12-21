@@ -46,7 +46,7 @@ echo "## $NUM.Installing Trinity requirements"
 echo "##########################################################"
 echo ""
 sudo apt update -y
-if [ "$SETUP_TSWOW" = "true" ] then
+if [ "$SETUP_TSWOW" = "true" ]; then
     # Nvm
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
     source ~/.bashrc
