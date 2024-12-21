@@ -4,3 +4,4 @@ SCRIPTS_REPO_URL="https://github.com/CableguyWoW/WOTLKTrinityInstaller"
 ########## GAME REPOS URLS
 CORE_REPO_URL="https://github.com/TrinityCore/TrinityCore.git"
 DB_REPO_URL="https://github.com/TrinityCore/TrinityCore/releases/download/TDB335.24111/TDB_full_world_335.24111_2024_11_22.7z"
+TS_REPO_URL="https://github.com/tswow/tswow.git"

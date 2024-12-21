@@ -46,6 +46,19 @@ echo "## $NUM.Installing Trinity requirements"
 echo "##########################################################"
 echo ""
 sudo apt update -y
+if [ "$SETUP_TSWOW" = "true" ] then
+    # Nvm
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
+    source ~/.bashrc
+    nvm install 20.18.0
+    nvm use 20.18.0
+    # Cmake
+    wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | sudo tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null
+    sudo apt-add-repository 'deb https://apt.kitware.com/debian/ bookworm main'
+    sudo apt update
+    sudo apt install cmake
+fi
+#TrinityCore Dependencies
 sudo apt-get install git unzip screen clang cmake make gdb gcc g++ libmysqlclient-dev libssl-dev libbz2-dev libreadline-dev libncurses-dev libboost-all-dev p7zip --assume-yes
 update-alternatives --install /usr/bin/cc cc /usr/bin/clang 100
 update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang 100

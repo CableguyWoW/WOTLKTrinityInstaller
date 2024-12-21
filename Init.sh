@@ -48,7 +48,8 @@ echo "##########################################################"
 echo "## $NUM.Install Prerequisites"
 echo "##########################################################"
 echo ""
-sudo apt install p7zip-full dos2unix gnupg --assume-yes
+sudo apt install curl p7zip-full dos2unix gnupg --assume-yes
+
 fi
 
 
