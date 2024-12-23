@@ -9,7 +9,6 @@ REALM_SECURITY="0" # https://trinitycore.info/en/database/335/auth/account_acces
 ########## SETUP SETTINGS
 SETUP_REALM_PORT="8085"
 SETUP_TYPE="Normal" #Normal or GDB
-SETUP_TSWOW="true"
 SETUP_DEV_WORLD="true"
 SETUP_REALMLIST="true"
 SETUP_REALM_USER="dev"
