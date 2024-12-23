@@ -16,7 +16,7 @@
 To install **WOTLKTrinityInstaller**, run the following commands as the root user:
 
 ```bash
-cd / && rm -rf WOTLKTrinityInstaller && apt-get install git sudo -y && [ -d "WOTLKTrinityInstaller] || git clone https://github.com/CableguyWoW/WOTLKTrinityInstaller/ WOTLKTrinityInstaller && cd WOTLKTrinityInstaller && chmod +x Init.sh && ./Init.sh all
+cd / && rm -rf WOTLKTrinityInstaller && apt-get install git sudo -y && git clone https://github.com/CableguyWoW/WOTLKTrinityInstaller/ WOTLKTrinityInstaller && cd WOTLKTrinityInstaller && chmod +x Init.sh && ./Init.sh all
 ```
 
 
